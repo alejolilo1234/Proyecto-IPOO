@@ -9,7 +9,7 @@
 int main()
 {
   
-  cout << "Eres un Robot y tu misión es llevar todos los individuos a la otra orilla, usando la barca. Pero no puedes dejar solos al zorro con el conejo, ni al conejo con la lechuga, porque el primero se devoraría al segundo. En la barca solo caben dos individuos, y uno de ellos debes ser tú, para pilotarla. Las órdenes que puedes dar son:\n\t- B para mover Barca\n\t- R para mover Robot\n\t- Z para mover Zorro\n\t- C para mover Conejo\n\t- L para mover Lechuga\n\t- Q para rendirte" << endl << endl;
+  cout << "\nEres un Robot y tu misión es llevar todos los individuos a la otra orilla, usando la barca. Pero no puedes dejar solos al zorro con el conejo, ni al conejo con la lechuga, porque el primero se devoraría al segundo. En la barca solo caben dos individuos, y uno de ellos debes ser tú, para pilotarla. Las órdenes que puedes dar son:\n\t- B para mover Barca\n\t- R para mover Robot\n\t- Z para mover Zorro\n\t- C para mover Conejo\n\t- L para mover Lechuga\n\t- Q para rendirte" << endl << endl;
 
   string columna;
 
@@ -44,7 +44,6 @@ int main()
     cout << endl;
   }
 
-  // cout << endl;
   cout << "\n¿Que desea mover? "; getline(cin,columna);
 
   if(columna == "B" || columna == "b")
@@ -54,25 +53,3 @@ int main()
 
   return 0;
 }
-
-
-  //Contar palabras de cada posición
-
-  // for(int i = 0; i < 5; i++)
-  // {
-  //   for(int j = 0; j < 4; j++)
-  //   {
-  //     cout << interfaz[i][j].length() << " ";
-  //   }
-  //   cout << endl;
-  // }
-
-
-  // for(int i = 0; i < 5;i++)
-  // {
-  //   cout<<endl;
-  //   for(int j = 0;j < 5; j++)
-  //   {
-  //     cout << "|            ";
-  //   }
-  // }
