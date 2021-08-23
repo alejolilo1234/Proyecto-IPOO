@@ -8,6 +8,7 @@ class Lugar
   private:
   int id;
   string name;
+  vector <Individuo *> individuo;
 
   public:
   // Constructor y destructor de la clase Lugar.

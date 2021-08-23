@@ -4,7 +4,15 @@
 
 Jugador::Jugador()
 {
-  // 
+  // Lugares
+  this -> lugar.push_back(new Orilla("Orilla Uno", 2));
+  this -> lugar.push_back(new Orilla("Orilla Dos", 3));
+  this -> lugar.push_back(new Barca("Barca", 4));
+  // Individuos
+  this -> individuo.push_back(new Individuo("Robot", 5));
+  this -> individuo.push_back(new Individuo("Zorro", 6));
+  this -> individuo.push_back(new Individuo("Conejo", 7));
+  this -> individuo.push_back(new Individuo("Lechuga", 8));
 }
 
 Jugador::~Jugador()

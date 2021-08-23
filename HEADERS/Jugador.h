@@ -7,15 +7,10 @@ class Jugador
 {
   private:
   int id = 1;
-  Orilla *orillaUno = new Orilla("Orilla Uno", 2);
-  Orilla *orillaDos = new Orilla("Orilla Dos", 3);
-  Barca *barca = new Barca("Barca", 4);
-  Individuo *robot = new Individuo("Robot", 5);
-  Individuo *zorro = new Individuo("Zorro", 6);
-  Individuo *conejo = new Individuo("Conejo", 7);
-  Individuo *lechuga = new Individuo("Lechuga", 8);
-  bool play;
   string name;
+  vector <Lugar *> lugar;
+  vector <Individuo *> individuo;
+  bool play;
 
   public:
   // Constructor y destructor de la clase Jugador.
