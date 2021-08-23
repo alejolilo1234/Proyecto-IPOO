@@ -1,4 +1,5 @@
-#include "../HEADERS/INCLUDES.h"
+// #include "../HEADERS/INCLUDES.h"
+#include "../HEADERS/Lugar.h"
 
 // Constructor y destructor de la clase Lugar.
 

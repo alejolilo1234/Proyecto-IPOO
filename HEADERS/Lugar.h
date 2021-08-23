@@ -1,7 +1,8 @@
 #ifndef LUGAR_H
 #define LUGAR_H
 
-#include "./INCLUDES.h"
+#include <vector>
+#include "./Individuo.h"
 
 class Lugar 
 {

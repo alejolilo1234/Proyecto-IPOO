@@ -1,8 +1,6 @@
 #ifndef BARCHA_H
 #define BARCHA_H
 
-#include "../INCLUDES.h"
-
 class Barca : public Lugar
 {
   private:

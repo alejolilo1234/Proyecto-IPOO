@@ -1,8 +1,6 @@
 #ifndef ORILLA_H
 #define ORILLA_H
 
-#include "../INCLUDES.h"
-
 class Orilla : public Lugar
 {
   private:

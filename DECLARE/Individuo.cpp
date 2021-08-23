@@ -1,4 +1,4 @@
-#include "../HEADERS/INCLUDES.h"
+#include "../HEADERS/Individuo.h"
 
 // Constructor y destructor de la clase Individuo.
 

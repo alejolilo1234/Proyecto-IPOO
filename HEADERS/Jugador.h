@@ -1,7 +1,9 @@
 #ifndef JUGADOR_H
 #define JUGADOR_H
 
-#include "./INCLUDES.h"
+#include <iostream>
+#include "./Individuo.h"
+#include "./Lugar.h"
 
 class Jugador 
 {

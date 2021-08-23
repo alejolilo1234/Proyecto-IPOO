@@ -1,7 +1,9 @@
 #ifndef INDIVIDUO_H
 #define INDIVIDUO_H
 
-#include "./INCLUDES.h"
+#include <string>
+
+using namespace std;
 
 class Individuo 
 {

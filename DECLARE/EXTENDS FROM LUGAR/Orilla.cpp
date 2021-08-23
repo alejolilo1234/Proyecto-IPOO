@@ -1,4 +1,6 @@
-#include "../../HEADERS/INCLUDES.h"
+#include <string>
+#include "../../HEADERS/Lugar.h"
+#include "../../HEADERS/EXTENDS FROM LUGAR/Orilla.h"
 
 // Constructor y destructor de la clase Orilla.
 

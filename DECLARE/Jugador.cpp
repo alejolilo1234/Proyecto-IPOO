@@ -1,4 +1,7 @@
-#include "../HEADERS/INCLUDES.h"
+#include "../HEADERS/Jugador.h"
+#include "../HEADERS/EXTENDS FROM LUGAR/Orilla.h"
+#include "../HEADERS/EXTENDS FROM LUGAR/Barca.h"
+
 
 // Constructor y destructor de la clase Jugador.
 

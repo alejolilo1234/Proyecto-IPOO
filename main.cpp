@@ -1,4 +1,4 @@
-#include "./HEADERS/INCLUDES.h"
+#include "./HEADERS/Jugador.h"
 
 int main() 
 {
