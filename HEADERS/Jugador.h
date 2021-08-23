@@ -40,6 +40,10 @@ class Jugador
   Método para pedirle el nombre al jugador.
   */
   void playersName();
+  /**
+  Método para mostrar instrucciones.
+  */
+  void showInstructions();
 };
 
 #else 
