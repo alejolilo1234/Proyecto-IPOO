@@ -224,10 +224,11 @@ void Jugador::whatDoYouWantToMove()
     }
     else 
     {
+      this -> play = false;
       cout << "Replantear condición\n\n";
     }
     
-    // this -> clear();
+    this -> clear();
   }
 
 
@@ -254,7 +255,8 @@ void Jugador::whatDoYouWantToMove()
     }
     else 
     {
-      // cout << "Hola mundo\n";
+      this -> play = false;
+      cout << "Replantear condición\n\n";
     }
 
     this -> clear();
@@ -282,7 +284,8 @@ void Jugador::whatDoYouWantToMove()
     }
     else 
     {
-      // cout << "Hola mundo\n";
+      this -> play = false;
+      cout << "Replantear condición\n\n";
     }
 
     this -> clear();
@@ -310,7 +313,8 @@ void Jugador::whatDoYouWantToMove()
     }
     else 
     {
-      // cout << "Hola mundo\n";
+      this -> play = false;
+      cout << "Replantear condición\n\n";
     }
     
     this -> clear();
@@ -323,6 +327,8 @@ void Jugador::whatDoYouWantToMove()
   else if(mover[0] == 'Q')
   {
     this -> play = false;
+    system("clear");
+    cout << "¡Hasta pronto! :D\n";
   }
 
 
