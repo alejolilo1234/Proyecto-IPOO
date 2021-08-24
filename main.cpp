@@ -34,6 +34,6 @@ int main()
   player.start(true);
   player.playersName();
   player.showInstructions();
-  player.createInterface();
+  player.createInterface(true);
   return 0;
 }

@@ -54,7 +54,7 @@ class Jugador
   /**
   Método para crear interfaz.
   */
-  void createInterface();
+  void createInterface(bool);
   /**
   Método para preguntar a usuario que desea mover.
   */
