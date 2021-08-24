@@ -24,6 +24,10 @@ class Individuo
   ~Individuo();
   
   // Getters de la clase Individuo.
+
+  string getName();
+
+  int getId();
   
   // Setters de la clase Individuo.
   

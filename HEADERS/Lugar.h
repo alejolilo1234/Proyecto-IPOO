@@ -6,10 +6,11 @@
 
 class Lugar 
 {
-  private:
+  protected:
   int id;
   string name;
-  vector <Individuo *> individuo;
+  vector <Individuo *> characters;
+  int capacity;
 
   public:
   // Constructor y destructor de la clase Lugar.
@@ -17,7 +18,7 @@ class Lugar
   /**
   Constructor de la clase Lugar.
   */
-  Lugar(string);
+  Lugar(string,int);
   /**
   Destructor de la clase Lugar.
   */
@@ -33,6 +34,8 @@ class Lugar
   Obtiene el nombre del Lugar.
   */
   string getName();
+  int getCapacity();
+  int getCharactersSize();
 
   // Setters de la clase Lugar.
 
@@ -46,6 +49,12 @@ class Lugar
   void setName(string);
 
   // Métodos de la clase Lugar.
+
+  void introduceCharacter(Individuo *);
+  void takeOutCharacter();
+
+  
+
   
 };
 

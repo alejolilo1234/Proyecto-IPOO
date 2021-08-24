@@ -4,7 +4,7 @@
 
 // Constructor y destructor de la clase Orilla.
 
-Orilla::Orilla(string _name, int _id) : Lugar(_name)
+Orilla::Orilla(string _name, int _capacity, int _id) : Lugar(_name,_capacity)
 {
   this -> setId(_id);
 }

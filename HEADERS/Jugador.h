@@ -4,14 +4,18 @@
 #include <iostream>
 #include "./Individuo.h"
 #include "./Lugar.h"
+#include <vector>
 
 class Jugador 
 {
   private:
-  int id = 1;
+  // int id = 1;
   string name;
-  vector <Lugar *> lugar;
-  vector <Individuo *> individuo;
+  vector <Lugar *> places;
+  vector <Individuo *> charactersRowOne;
+  vector <Individuo *> charactersRowTwo;
+  vector <Individuo *> charactersRowThree;
+  vector <Individuo *> charactersRowFour;
   bool play;
 
   public:
@@ -44,6 +48,18 @@ class Jugador
   Método para mostrar instrucciones.
   */
   void showInstructions();
+  /**
+  Método para crear interfaz.
+  */
+  void createInterface();
+  /**
+  Método para preguntar a usuario que desea mover.
+  */
+  void whatDoYouWantToMove();
+
+  void introducePlace(Lugar *);
+  void introduceCharacter(int, Individuo *);
+  void clear();
 };
 
 #else 

@@ -11,7 +11,7 @@ class Orilla : public Lugar
   /**
   Constructor de la clase Orilla.
   */
-  Orilla(string, int);
+  Orilla(string, int, int);
   /**
   Destructor de la clase Orilla.
   */

@@ -11,17 +11,19 @@ class Barca : public Lugar
   /**
   Constructor de la clase Barca.
   */
-  Barca(string, int);
+  Barca(string, int, int);
   /**
   Destructor de la clase Barca.
   */
   ~Barca();
 
   // Getters de la clase Barca.
+
   
   // Setters de la clase Barca.
   
   // Métodos de la clase Barca.
+
   
 };
 

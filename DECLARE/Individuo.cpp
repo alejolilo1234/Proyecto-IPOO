@@ -14,6 +14,16 @@ Individuo::~Individuo()
 }
 
 // Getters de la clase Individuo.
+
+string Individuo::getName()
+{
+  return this -> name;
+}
+
+int Individuo::getId()
+{
+  return this -> id;
+}
   
 // Setters de la clase Individuo.
 
