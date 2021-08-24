@@ -61,31 +61,56 @@ void Jugador::showInstructions()
 void Jugador::printPlaceRow(vector <Lugar *> &_places)
 {
   cout << "| ";
-    for(int i = 0; i < _places.size(); i++)
+  for(int i = 0; i < _places.size(); i++)
+  {
+    if(_places[i]->getName().length() < 9)
     {
-      if(_places[i]->getName().length() < 9)
-      {
-        int espacios = 9 - _places[i]->getName().length(); cout << _places[i] -> getName();
-        for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
-      } 
-      else cout << _places[i] -> getName() << " | ";
-    }
-    cout << endl;
+      int espacios = 9 - _places[i]->getName().length(); cout << _places[i] -> getName();
+      for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
+    } 
+    else cout << _places[i] -> getName() << " | ";
+  }
+  cout << endl;
 }
 
 void Jugador::printCharacterRow(vector <Individuo *> &_character)
 {
   cout << "| ";
-    for(int i = 0; i < _character.size(); i++)
+  if(_character[0]->getName().length() < 9)
+  {
+    int espacios = 9 - _character[0]->getName().length(); cout << _character[0] -> getName();
+    for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
+  } 
+  else cout << _character[0] -> getName() << " | ";
+  
+  for(int i = 1; i < 3; i++)
+  {
+    if(_character[i]->getName().length() < 9)
     {
-      if(_character[i]->getName().length() < 9)
-      {
-        int espacios = 9 - _character[i]->getName().length(); cout << _character[i] -> getName();
-        for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
-      } 
-      else cout << _character[i] -> getName() << " | ";
-    }
-    cout << endl;
+      int espacios = 9 - _character[i]->getName().length(); cout << _character[i] -> getName();
+      for(int i = 0;i < espacios; i++) cout << "~"; cout << " | ";
+    } 
+    else cout << _character[i] -> getName() << " | ";
+  }
+
+  if(_character[3]->getName().length() < 9)
+  {
+    int espacios = 9 - _character[3]->getName().length(); cout << _character[3] -> getName();
+    for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
+  } 
+  else cout << _character[3] -> getName() << " | ";
+  
+
+  // for(int i = 0; i < _character.size(); i++)
+  // {
+  //   if(_character[i]->getName().length() < 9)
+  //   {
+  //     int espacios = 9 - _character[i]->getName().length(); cout << _character[i] -> getName();
+  //     for(int i = 0;i < espacios; i++) cout << "~"; cout << " | ";
+  //   } 
+  //   else cout << _character[i] -> getName() << " | ";
+  // }
+  cout << endl;
 }
 
 void Jugador::createInterface()
