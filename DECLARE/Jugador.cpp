@@ -64,7 +64,7 @@ void Jugador::printPlaceRow(vector <Lugar *> &_places)
   if(_places[0]->getName().length() < 9)
   {
     int espacios = 9 - _places[0]->getName().length(); cout << _places[0] -> getName();
-    for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
+    for(int i = 0;i < espacios; i++) cout << "⇝"; cout << " | ";
   } 
   else cout << _places[0] -> getName() << " | ";
 
@@ -73,7 +73,7 @@ void Jugador::printPlaceRow(vector <Lugar *> &_places)
     if(_places[i]->getName().length() < 9)
     {
       int espacios = 9 - _places[i]->getName().length(); cout << _places[i] -> getName();
-      for(int i = 0;i < espacios; i++) cout << "~"; cout << " | ";
+      for(int i = 0;i < espacios; i++) cout << "∿"; cout << " | ";
     } 
     else cout << _places[i] -> getName() << " | ";
   }
@@ -81,7 +81,7 @@ void Jugador::printPlaceRow(vector <Lugar *> &_places)
   if(_places[3]->getName().length() < 9)
   {
     int espacios = 9 - _places[3]->getName().length(); cout << _places[3] -> getName();
-    for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
+    for(int i = 0;i < espacios; i++) cout << "⇝"; cout << " | ";
   } 
   else cout << _places[3] -> getName() << " | ";
 
@@ -94,7 +94,7 @@ void Jugador::printCharacterRow(vector <Individuo *> &_character)
   if(_character[0]->getName().length() < 9)
   {
     int espacios = 9 - _character[0]->getName().length(); cout << _character[0] -> getName();
-    for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
+    for(int i = 0;i < espacios; i++) cout << "⇝"; cout << " | ";
   } 
   else cout << _character[0] -> getName() << " | ";
 
@@ -103,7 +103,7 @@ void Jugador::printCharacterRow(vector <Individuo *> &_character)
     if(_character[i]->getName().length() < 9)
     {
       int espacios = 9 - _character[i]->getName().length(); cout << _character[i] -> getName();
-      for(int i = 0;i < espacios; i++) cout << "~"; cout << " | ";
+      for(int i = 0;i < espacios; i++) cout << "∿"; cout << " | ";
     } 
     else cout << _character[i] -> getName() << " | ";
   }
@@ -111,7 +111,7 @@ void Jugador::printCharacterRow(vector <Individuo *> &_character)
   if(_character[3]->getName().length() < 9)
   {
     int espacios = 9 - _character[3]->getName().length(); cout << _character[3] -> getName();
-    for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
+    for(int i = 0;i < espacios; i++) cout << "⇝"; cout << " | ";
   } 
   else cout << _character[3] -> getName() << " | ";
 
@@ -121,7 +121,7 @@ void Jugador::printCharacterRow(vector <Individuo *> &_character)
 void Jugador::createInterface(bool _state)
 {
   do{
-    for(int i = 0; i < 49; i++) cout << "-"; cout << endl;
+    cout << "+"; for(int i = 0; i < 47; i++) cout << "-"; cout << "+" << endl;
 
     this -> printPlaceRow(places);
     this -> printCharacterRow(charactersRowOne);
@@ -129,7 +129,7 @@ void Jugador::createInterface(bool _state)
     this -> printCharacterRow(charactersRowThree);
     this -> printCharacterRow(charactersRowFour);
 
-    for(int i = 0; i < 49; i++) cout << "-"; cout << endl;
+    cout << "+"; for(int i = 0; i < 47; i++) cout << "-"; cout << "+" << endl;
 
     if(_state == true)
     {
@@ -171,6 +171,13 @@ void Jugador::whatDoYouWantToMove()
       cout << "\nPERDISTE\n\nEl conejo se comio la lechuga :c\n\n";
       this -> createInterface(false);
     } 
+    else if(places[2]->getId() == 2 && charactersRowOne[2]->getId() == 3 && charactersRowFour[2]->getId() == 6 && charactersRowTwo[0]->getId() == 4 && charactersRowThree[0]->getId() == 5)
+    {
+      this -> play = false;
+      system("clear");
+      cout << "\nPERDISTE\n\nEl zorro se comio al conejo :c\n\n";
+      this -> createInterface(false);
+    }
     else 
     {
       this -> clear();

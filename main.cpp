@@ -14,22 +14,22 @@ int main()
   player.introduceCharacter(1, new Individuo("ROBOT", 3));
   player.introduceCharacter(1, new Individuo("", 0));
   player.introduceCharacter(1, new Individuo("", 0));
-  player.introduceCharacter(1, new Individuo("", 20));
+  player.introduceCharacter(1, new Individuo("", 0));
   // Introducir Individuo en segunda fila
   player.introduceCharacter(2, new Individuo("ZORRO", 4));
   player.introduceCharacter(2, new Individuo("", 0));
   player.introduceCharacter(2, new Individuo("", 0));
-  player.introduceCharacter(2, new Individuo("", 20));
+  player.introduceCharacter(2, new Individuo("", 0));
   // Introducir Individuo en tercera fila
   player.introduceCharacter(3, new Individuo("CONEJO", 5));
   player.introduceCharacter(3, new Individuo("", 0));
   player.introduceCharacter(3, new Individuo("", 0));
-  player.introduceCharacter(3, new Individuo("", 20));
+  player.introduceCharacter(3, new Individuo("", 0));
   // Introducir Individuo en cuarta fila
   player.introduceCharacter(4, new Individuo("LECHUGA", 6));
   player.introduceCharacter(4, new Individuo("", 0));
   player.introduceCharacter(4, new Individuo("", 0));
-  player.introduceCharacter(4, new Individuo("", 20));
+  player.introduceCharacter(4, new Individuo("", 0));
   // Juego
   player.start(true);
   player.playersName();
