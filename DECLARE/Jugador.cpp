@@ -190,6 +190,7 @@ void Jugador::whatDoYouWantToMove()
 
   else if(mover[0] == 'R')
   {
+    // Orilla izquierda
     if(places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowOne[1]->getId() == 0)
     {
       Individuo *aux = charactersRowOne[0];
@@ -197,19 +198,41 @@ void Jugador::whatDoYouWantToMove()
       charactersRowOne[1] = aux;
       places[1] -> introduceCharacter(charactersRowOne[1]);
     } 
-    else if ((places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && charactersRowOne[1]->getId() == 3) || (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && places[1]->getId() == 2))
+    else if (
+    (places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && charactersRowOne[1]->getId() == 3) 
+    
+    || 
+    
+    (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && places[1]->getId() == 2))
     {
       Individuo *aux = charactersRowOne[1];
-        charactersRowOne[1] = charactersRowOne[0];
-        charactersRowOne[0] = aux;
-        places[1] -> takeOutCharacter();
+      charactersRowOne[1] = charactersRowOne[0];
+      charactersRowOne[0] = aux;
+      places[1] -> takeOutCharacter();
+    }
+    // Orilla derecha
+    else if(places[2]->getCharactersSize() < places[2]->getCapacity() && places[2]->getId() == 2 && charactersRowOne[3]->getId() == 0)
+    {
+      Individuo *aux = charactersRowOne[2];
+      charactersRowOne[2] = charactersRowOne[3];
+      charactersRowOne[3] = aux;
+      places[2] -> takeOutCharacter();
+      cout << "Condición 1\n";
+    }
+    else if(places[2]->getCharactersSize() < places[2]->getCapacity() && places[2]->getId() == 2 && charactersRowOne[2]->getId() == 0)
+    {
+      Individuo *aux = charactersRowOne[3];
+      charactersRowOne[3] = charactersRowOne[2];
+      charactersRowOne[2] = aux;
+      places[2] -> introduceCharacter(charactersRowOne[3]);
+      cout << "Condición 2\n";
     }
     else if(places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && charactersRowOne[1]->getId() == 0 && charactersRowOne[2]->getId() == 6 && places[2]->getId() == 2)
     {
-      // cout << "Hola mundo\n";
+      // 
     }
     
-    this -> clear();
+    // this -> clear();
   }
 
 
