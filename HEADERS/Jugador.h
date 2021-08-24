@@ -48,6 +48,9 @@ class Jugador
   Método para mostrar instrucciones.
   */
   void showInstructions();
+
+  void printPlaceRow(vector <Lugar *> &);
+  void printCharacterRow(vector <Individuo *> &);
   /**
   Método para crear interfaz.
   */

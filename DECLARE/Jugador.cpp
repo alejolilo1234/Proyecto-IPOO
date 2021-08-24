@@ -14,10 +14,10 @@ Jugador::~Jugador()
 {
   for(int wich = 0; wich < this -> places.size(); wich++)
   {
-    // Lugares
+    // Liberar Lugar(s)
     delete this -> places[wich];
     this -> places[wich] = nullptr;
-    // Individuos
+    // Liberar Individuo(s)
     delete this -> charactersRowOne[wich];
     this -> charactersRowOne[wich] = nullptr;
     delete this -> charactersRowTwo[wich];
@@ -58,75 +58,46 @@ void Jugador::showInstructions()
   cout << "\n¡Bienvenido " << this -> name <<  "!\n\nEres un Robot y tu misión es llevar todos los individuos a la otra orilla, usando la barca. Pero no puedes dejar solos al zorro con el conejo, ni al conejo con la lechuga, porque el primero se devoraría al segundo. En la barca solo caben dos individuos, y uno de ellos debes ser tú, para pilotarla. Las órdenes que puedes dar son:\n\n\t- B para mover Barca\n\t- R para mover Robot\n\t- Z para mover Zorro\n\t- C para mover Conejo\n\t- L para mover Lechuga\n\t- Q para rendirte\n\n";
 }
 
+void Jugador::printPlaceRow(vector <Lugar *> &_places)
+{
+  cout << "| ";
+    for(int i = 0; i < _places.size(); i++)
+    {
+      if(_places[i]->getName().length() < 9)
+      {
+        int espacios = 9 - _places[i]->getName().length(); cout << _places[i] -> getName();
+        for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
+      } 
+      else cout << _places[i] -> getName() << " | ";
+    }
+    cout << endl;
+}
+
+void Jugador::printCharacterRow(vector <Individuo *> &_character)
+{
+  cout << "| ";
+    for(int i = 0; i < _character.size(); i++)
+    {
+      if(_character[i]->getName().length() < 9)
+      {
+        int espacios = 9 - _character[i]->getName().length(); cout << _character[i] -> getName();
+        for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
+      } 
+      else cout << _character[i] -> getName() << " | ";
+    }
+    cout << endl;
+}
+
 void Jugador::createInterface()
 {
   do{
     for(int i = 0; i < 49; i++) cout << "-"; cout << endl;
 
-    // Primera fila
-    cout << "| ";
-    for(int i = 0; i < this -> places.size(); i++)
-    {
-      if(places[i]->getName().length() < 9)
-      {
-        int espacios = 9 - places[i]->getName().length(); cout << places[i] -> getName();
-        for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
-      } 
-      else cout << places[i] -> getName() << " | ";
-    }
-    cout << endl;
-
-    // Segunda fila
-    cout << "| ";
-    for(int i = 0; i < this -> places.size(); i++)
-    {
-      if(charactersRowOne[i]->getName().length() < 9)
-      {
-        int espacios = 9 - charactersRowOne[i]->getName().length(); cout << charactersRowOne[i] -> getName();
-        for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
-      } 
-      else cout << charactersRowOne[i] -> getName() << " | ";
-    }
-    cout << endl;
-
-    // Tercera fila
-    cout << "| ";
-    for(int i = 0; i < this -> places.size(); i++)
-    {
-      if(charactersRowTwo[i]->getName().length() < 9)
-      {
-        int espacios = 9 - charactersRowTwo[i]->getName().length(); cout << charactersRowTwo[i] -> getName();
-        for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
-      } 
-      else cout << charactersRowTwo[i] -> getName() << " | ";
-    }
-    cout << endl;
-
-    // Cuarta fila
-    cout << "| ";
-    for(int i = 0; i < this -> places.size(); i++)
-    {
-      if(charactersRowThree[i]->getName().length() < 9)
-      {
-        int espacios = 9 - charactersRowThree[i]->getName().length(); cout << charactersRowThree[i] -> getName();
-        for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
-      } 
-      else cout << charactersRowThree[i] -> getName() << " | ";
-    }
-    cout << endl;
-
-    // Quinta fila
-    cout << "| ";
-    for(int i = 0; i < this -> places.size(); i++)
-    {
-      if(charactersRowFour[i]->getName().length() < 9)
-      {
-        int espacios = 9 - charactersRowFour[i]->getName().length(); cout << charactersRowFour[i] -> getName();
-        for(int i = 0;i < espacios; i++) cout << "."; cout << " | ";
-      } 
-      else cout << charactersRowFour[i] -> getName() << " | ";
-    }
-    cout << endl;
+    this -> printPlaceRow(places);
+    this -> printCharacterRow(charactersRowOne);
+    this -> printCharacterRow(charactersRowTwo);
+    this -> printCharacterRow(charactersRowThree);
+    this -> printCharacterRow(charactersRowFour);
 
     for(int i = 0; i < 49; i++) cout << "-"; cout << endl;
 
@@ -142,47 +113,50 @@ void Jugador::whatDoYouWantToMove()
 
   if(mover[0] == 'B')
   {
-    Lugar *aux = places[1];
-    places[1] = places[2];
-    places[2] = aux;
-    Individuo *aux2 = charactersRowOne[1];
-    charactersRowOne[1] = charactersRowOne[2];
-    charactersRowOne[2] = aux2;
-    Individuo *aux3 = charactersRowTwo[1];
-    charactersRowTwo[1] = charactersRowTwo[2];
-    charactersRowTwo[2] = aux3;
-    Individuo *aux4 = charactersRowThree[1];
-    charactersRowThree[1] = charactersRowThree[2];
-    charactersRowThree[2] = aux4;
-    Individuo *aux5 = charactersRowFour[1];
-    charactersRowFour[1] = charactersRowFour[2];
-    charactersRowFour[2] = aux5;
+    if((charactersRowOne[1]->getId() == 3) || (places[2]->getId() == 2 && charactersRowOne[2]->getId() == 3))
+    {
+      Lugar *aux = places[1];
+      places[1] = places[2];
+      places[2] = aux;
+      Individuo *aux2 = charactersRowOne[1];
+      charactersRowOne[1] = charactersRowOne[2];
+      charactersRowOne[2] = aux2;
+      Individuo *aux3 = charactersRowTwo[1];
+      charactersRowTwo[1] = charactersRowTwo[2];
+      charactersRowTwo[2] = aux3;
+      Individuo *aux4 = charactersRowThree[1];
+      charactersRowThree[1] = charactersRowThree[2];
+      charactersRowThree[2] = aux4;
+      Individuo *aux5 = charactersRowFour[1];
+      charactersRowFour[1] = charactersRowFour[2];
+      charactersRowFour[2] = aux5;
+    } 
+    
     this -> clear();
   }
+
+
+
+
   else if(mover[0] == 'R')
   {
     if(places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowOne[1]->getId() == 0)
     {
-      // if(charactersRowOne[1]->getId() == 0){
-        Individuo *aux = charactersRowOne[0];
-        charactersRowOne[0] = charactersRowOne[1];
-        charactersRowOne[1] = aux;
-        places[1] -> introduceCharacter(charactersRowOne[1]);
-      // } 
+      Individuo *aux = charactersRowOne[0];
+      charactersRowOne[0] = charactersRowOne[1];
+      charactersRowOne[1] = aux;
+      places[1] -> introduceCharacter(charactersRowOne[1]);
     } 
-    else if (places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && charactersRowOne[1]->getId() == 3)
+    else if ((places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && charactersRowOne[1]->getId() == 3) || (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && places[1]->getId() == 2))
     {
       Individuo *aux = charactersRowOne[1];
         charactersRowOne[1] = charactersRowOne[0];
         charactersRowOne[0] = aux;
         places[1] -> takeOutCharacter();
     }
-    else if (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowOne[0]->getId() == 0)
+    else if(places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && charactersRowOne[1]->getId() == 0 && charactersRowOne[2]->getId() == 6 && places[2]->getId() == 2)
     {
-      Individuo *aux = charactersRowOne[1];
-        charactersRowOne[1] = charactersRowOne[0];
-        charactersRowOne[0] = aux;
-        places[1] -> takeOutCharacter();
+      // cout << "Hola mundo\n";
     }
     
     this -> clear();
@@ -203,19 +177,16 @@ void Jugador::whatDoYouWantToMove()
       charactersRowTwo[1] = aux;
       places[1] -> introduceCharacter(charactersRowTwo[1]);
     }
-    else if (places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowTwo[0]->getId() == 0 && charactersRowTwo[1]->getId() == 4)
+    else if ((places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowTwo[0]->getId() == 0 && charactersRowTwo[1]->getId() == 4) || (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowTwo[0]->getId() == 0 && places[1]->getId() == 2))
     {
       Individuo *aux = charactersRowTwo[1];
         charactersRowTwo[1] = charactersRowTwo[0];
         charactersRowTwo[0] = aux;
         places[1] -> takeOutCharacter();
     }
-    else if (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowTwo[0]->getId() == 0)
+    else if(places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowTwo[0]->getId() == 0 && charactersRowTwo[1]->getId() == 0 && charactersRowTwo[2]->getId() == 6 && places[2]->getId() == 2)
     {
-      Individuo *aux = charactersRowTwo[1];
-        charactersRowTwo[1] = charactersRowTwo[0];
-        charactersRowTwo[0] = aux;
-        places[1] -> takeOutCharacter();
+      // cout << "Hola mundo\n";
     }
 
     this -> clear();
@@ -234,19 +205,16 @@ void Jugador::whatDoYouWantToMove()
       charactersRowThree[1] = aux;
       places[1] -> introduceCharacter(charactersRowThree[1]);
     } 
-    else if (places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowThree[0]->getId() == 0 && charactersRowThree[1]->getId() == 5)
+    else if ((places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowThree[0]->getId() == 0 && charactersRowThree[1]->getId() == 5) || (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowThree[0]->getId() == 0  && places[1]->getId() == 2))
     {
       Individuo *aux = charactersRowThree[1];
         charactersRowThree[1] = charactersRowThree[0];
         charactersRowThree[0] = aux;
         places[1] -> takeOutCharacter();
     }
-    else if (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowThree[0]->getId() == 0)
+    else if(places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowThree[0]->getId() == 0 && charactersRowThree[1]->getId() == 0 && charactersRowThree[2]->getId() == 6 && places[2]->getId() == 2)
     {
-      Individuo *aux = charactersRowThree[1];
-        charactersRowThree[1] = charactersRowThree[0];
-        charactersRowThree[0] = aux;
-        places[1] -> takeOutCharacter();
+      // cout << "Hola mundo\n";
     }
 
     this -> clear();
@@ -265,19 +233,16 @@ void Jugador::whatDoYouWantToMove()
       charactersRowFour[1] = aux;
       places[1] -> introduceCharacter(charactersRowFour[1]);
     }
-    else if (places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowFour[0]->getId() == 0 && charactersRowFour[1]->getId() == 6)
+    else if ((places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowFour[0]->getId() == 0 && charactersRowFour[1]->getId() == 6) || (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowFour[0]->getId() == 0 && places[1]->getId() == 2))
     {
       Individuo *aux = charactersRowFour[1];
         charactersRowFour[1] = charactersRowFour[0];
         charactersRowFour[0] = aux;
         places[1] -> takeOutCharacter();
     }
-    else if (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowFour[0]->getId() == 0)
+    else if(places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowFour[0]->getId() == 0 && charactersRowFour[1]->getId() == 0 && charactersRowFour[2]->getId() == 6 && places[2]->getId() == 2)
     {
-      Individuo *aux = charactersRowFour[1];
-        charactersRowFour[1] = charactersRowFour[0];
-        charactersRowFour[0] = aux;
-        places[1] -> takeOutCharacter();
+      // cout << "Hola mundo\n";
     }
     
     this -> clear();
@@ -291,8 +256,17 @@ void Jugador::whatDoYouWantToMove()
   {
     this -> play = false;
   }
-  // cout << mover << endl;
-}
+
+
+
+
+
+  else 
+  {
+    this -> clear();
+  }
+} 
+
 
 void Jugador::introducePlace(Lugar *_place)
 {
