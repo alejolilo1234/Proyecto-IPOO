@@ -198,12 +198,8 @@ void Jugador::whatDoYouWantToMove()
       charactersRowOne[1] = aux;
       places[1] -> introduceCharacter(charactersRowOne[1]);
     } 
-    else if (
-    (places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && charactersRowOne[1]->getId() == 3) 
-    
-    || 
-    
-    (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && places[1]->getId() == 2))
+    // Para cuando esta vacio y para cuando esta lleno
+    else if ((places[1]->getCharactersSize() < places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && charactersRowOne[1]->getId() == 3) || (places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && places[1]->getId() == 2))
     {
       Individuo *aux = charactersRowOne[1];
       charactersRowOne[1] = charactersRowOne[0];
@@ -211,25 +207,24 @@ void Jugador::whatDoYouWantToMove()
       places[1] -> takeOutCharacter();
     }
     // Orilla derecha
-    else if(places[2]->getCharactersSize() < places[2]->getCapacity() && places[2]->getId() == 2 && charactersRowOne[3]->getId() == 0)
+    else if(places[2]->getCharactersSize() <= places[2]->getCapacity() && places[2]->getId() == 2 && charactersRowOne[3]->getId() == 0)
     {
       Individuo *aux = charactersRowOne[2];
       charactersRowOne[2] = charactersRowOne[3];
       charactersRowOne[3] = aux;
       places[2] -> takeOutCharacter();
-      cout << "Condición 1\n";
     }
-    else if(places[2]->getCharactersSize() < places[2]->getCapacity() && places[2]->getId() == 2 && charactersRowOne[2]->getId() == 0)
+    // Para cuando esta lleno y vacio
+    else if((places[2]->getCharactersSize() < places[2]->getCapacity() && places[2]->getId() == 2 && charactersRowOne[3]->getId() == 3) || (places[2]->getCharactersSize() == places[2]->getCapacity() && places[2]->getId() == 2 && charactersRowOne[3]->getId() == 3))
     {
       Individuo *aux = charactersRowOne[3];
       charactersRowOne[3] = charactersRowOne[2];
       charactersRowOne[2] = aux;
       places[2] -> introduceCharacter(charactersRowOne[3]);
-      cout << "Condición 2\n";
     }
-    else if(places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowOne[0]->getId() == 0 && charactersRowOne[1]->getId() == 0 && charactersRowOne[2]->getId() == 6 && places[2]->getId() == 2)
+    else 
     {
-      // 
+      cout << "Replantear condición\n\n";
     }
     
     // this -> clear();
@@ -257,7 +252,7 @@ void Jugador::whatDoYouWantToMove()
         charactersRowTwo[0] = aux;
         places[1] -> takeOutCharacter();
     }
-    else if(places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowTwo[0]->getId() == 0 && charactersRowTwo[1]->getId() == 0 && charactersRowTwo[2]->getId() == 6 && places[2]->getId() == 2)
+    else 
     {
       // cout << "Hola mundo\n";
     }
@@ -285,7 +280,7 @@ void Jugador::whatDoYouWantToMove()
         charactersRowThree[0] = aux;
         places[1] -> takeOutCharacter();
     }
-    else if(places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowThree[0]->getId() == 0 && charactersRowThree[1]->getId() == 0 && charactersRowThree[2]->getId() == 6 && places[2]->getId() == 2)
+    else 
     {
       // cout << "Hola mundo\n";
     }
@@ -313,7 +308,7 @@ void Jugador::whatDoYouWantToMove()
         charactersRowFour[0] = aux;
         places[1] -> takeOutCharacter();
     }
-    else if(places[1]->getCharactersSize() == places[1]->getCapacity() && charactersRowFour[0]->getId() == 0 && charactersRowFour[1]->getId() == 0 && charactersRowFour[2]->getId() == 6 && places[2]->getId() == 2)
+    else 
     {
       // cout << "Hola mundo\n";
     }
