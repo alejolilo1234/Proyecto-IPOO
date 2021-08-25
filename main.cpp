@@ -9,7 +9,7 @@ int main()
   player.introducePlace(new Orilla("IZQUIERDA",4,1));
   player.introducePlace(new Barca("BARCA",2,2));
   player.introducePlace(new Lugar("",0));
-  player.introducePlace(new Orilla("DERECHA",4,4));
+  player.introducePlace(new Orilla("DERECHA",4,8));
   // Introducir Individuo en primera fila
   player.introduceCharacter(1, new Individuo("ROBOT", 3));
   player.introduceCharacter(1, new Individuo("", 0));

@@ -63,6 +63,7 @@ class Jugador
   void introducePlace(Lugar *);
   void introduceCharacter(int, Individuo *);
   void clear();
+  void nextSpot(int, int, int, int);
 };
 
 #else 
