@@ -1,3 +1,20 @@
+/*
+  Archivo: Concursante.h
+  Autores: 
+* Jhon Abril <jhon.abril@correounivalle.edu.co>
+* Deisy Catalina Melo <deisy.melo@correounivalle.edu.co>
+* Luisa María Cardenas <cardenas.luisa@correounivalle.edu.co>
+  Fecha creación: 2021-09-12
+  Fecha última modificación: 2021-09-12
+  Licencia: GNU-GPL
+*/
+
+/**
+  CLASE:
+  INTENCIÓN:
+  RELACIONES:
+*/
+
 #ifndef INDIVIDUO_H
 #define INDIVIDUO_H
 
@@ -8,8 +25,10 @@ using namespace std;
 class Individuo 
 {
   private:
-  int id;
   string name;
+  string command;
+  Individuo * food;
+  bool canMoveBoat;
 
   public:
   // Constructor y destructor de la clase Individuo.
@@ -17,7 +36,9 @@ class Individuo
   /**
   Constructor de la clase Individuo.
   */
-  Individuo(string, int);
+  Individuo(string, Individuo *,bool);
+
+  Individuo(string, Individuo *);
   /**
   Destructor de la clase Individuo.
   */
@@ -27,9 +48,13 @@ class Individuo
 
   string getName();
 
-  int getId();
-  
+  string getCommand();  
+
+  bool getIfItCanMoveBoat();
+
   // Setters de la clase Individuo.
+
+  void setCommand(string);
   
   // Métodos de la clase Individuo.
   

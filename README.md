@@ -3,6 +3,7 @@
 ## Integrantes:
 - Jhon Abril
 - Catalina Melo
+- Luisa María Cardenas
 
 ## Estructura de la clase
 

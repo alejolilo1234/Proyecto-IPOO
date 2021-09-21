@@ -1,3 +1,20 @@
+/*
+  Archivo: Concursante.h
+  Autores: 
+* Jhon Abril <jhon.abril@correounivalle.edu.co>
+* Deisy Catalina Melo <deisy.melo@correounivalle.edu.co>
+* Luisa María Cardenas <cardenas.luisa@correounivalle.edu.co>
+  Fecha creación: 2021-09-12
+  Fecha última modificación: 2021-09-12
+  Licencia: GNU-GPL
+*/
+
+/**
+  CLASE:
+  INTENCIÓN:
+  RELACIONES:
+*/
+
 #ifndef LUGAR_H
 #define LUGAR_H
 
@@ -7,10 +24,12 @@
 class Lugar 
 {
   protected:
-  int id;
   string name;
+  string command;
   vector <Individuo *> characters;
   int capacity;
+  Lugar * neighbor;
+  Lugar * nextNeighbor;
 
   public:
   // Constructor y destructor de la clase Lugar.
@@ -18,7 +37,7 @@ class Lugar
   /**
   Constructor de la clase Lugar.
   */
-  Lugar(string,int);
+  Lugar(string,Lugar *, Lugar *);
   /**
   Destructor de la clase Lugar.
   */
@@ -26,35 +45,37 @@ class Lugar
 
   // Getters de la clase Lugar.
 
-  /**
-  Obtiene el id del Lugar.
-  */
-  int getId();
-  /**
-  Obtiene el nombre del Lugar.
-  */
   string getName();
+
   int getCapacity();
-  int getCharactersSize();
+
+  int getSizeOfCharacters();
+
+  // string getNameOfCharacter(int);
+
+  Individuo * getCharacter(int);
+
+  Individuo * getCharacter(string);
+
+  string getCommand();
 
   // Setters de la clase Lugar.
 
-  /**
-  Reemplaza id del Lugar.
-  */
-  void setId(int);
-  /**
-  Reemplaza nombre del Lugar.
-  */
-  void setName(string);
+  void setNeighbor(Lugar *);
+
+  void setNextNeighbor(Lugar *);
+
+  void setCapacity(int);
+
+  void setCommand(string);
 
   // Métodos de la clase Lugar.
 
+  bool haveNeighbor(Lugar *);
+
   void introduceCharacter(Individuo *);
-  void takeOutCharacter();
 
-  
-
+  void takeCharacter(Individuo *);
   
 };
 

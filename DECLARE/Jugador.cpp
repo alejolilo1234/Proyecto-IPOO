@@ -1,561 +1,312 @@
+/*
+  Archivo: main.cpp
+  Autores: 
+* Jhon Abril <jhon.abril@correounivalle.edu.co>
+* Deisy Catalina Melo <deisy.melo@correounivalle.edu.co>
+* Luisa María Cardenas <cardenas.luisa@correounivalle.edu.co>
+  Fecha creación: 2021-09-12
+  Fecha última modificación: 2021-09-12
+  Licencia: GNU-GPL
+*/
+
 #include "../HEADERS/Jugador.h"
-#include "../HEADERS/Individuo.h"
-#include "../HEADERS/EXTENDS FROM LUGAR/Orilla.h"
-#include "../HEADERS/EXTENDS FROM LUGAR/Barca.h"
+#include <stdio.h>
 
 // Constructor y destructor de la clase Jugador.
 
-Jugador::Jugador()
+Jugador::Jugador() : play(false), principalCharacter(nullptr)
 {
   // 
 }
 
 Jugador::~Jugador()
 {
-  for(int wich = 0; wich < this -> places.size(); wich++)
-  {
-    // Liberar Lugar(s)
-    delete this -> places[wich];
-    this -> places[wich] = nullptr;
-    // Liberar Individuo(s)
-    delete this -> charactersRowOne[wich];
-    this -> charactersRowOne[wich] = nullptr;
-    delete this -> charactersRowTwo[wich];
-    this -> charactersRowTwo[wich] = nullptr;
-    delete this -> charactersRowThree[wich];
-    this -> charactersRowThree[wich] = nullptr;
-    delete this -> charactersRowFour[wich];
-    this -> charactersRowFour[wich] = nullptr;
-  }
+  // 
 }
 
 // Getters de la clase Jugador.
-  
+
 // Setters de la clase Jugador.
-  
-// Métodos de la clase Jugador.
 
-void Jugador::start(bool _state)
+void Jugador::setName()
 {
-  this -> play = _state;
-  places[0] -> introduceCharacter(charactersRowOne[0]);
-  places[0] -> introduceCharacter(charactersRowTwo[0]);
-  places[0] -> introduceCharacter(charactersRowThree[0]);
-  places[0] -> introduceCharacter(charactersRowFour[0]);
-}
-
-void Jugador::playersName()
-{
+  string _name;
   cout << "Nombre: ";
-  getline(cin,this -> name);
-  if(this -> name == ""){
+  getline(cin,_name);
+  if(_name == "")
     this -> name = "Jugador";
-  } 
+  else
+    this -> name = _name;
 }
+
+// Métodos de la clase Jugador.
 
 void Jugador::showInstructions()
 {
-  cout << "\n¡Bienvenido " << this -> name <<  "!\n\nEres un Robot y tu misión es llevar todos los individuos a la otra orilla, usando la barca. Pero no puedes dejar solos al zorro con el conejo, ni al conejo con la lechuga, porque el primero se devoraría al segundo. En la barca solo caben dos individuos, y uno de ellos debes ser tú, para pilotarla. Las órdenes que puedes dar son:\n\n\t- B para mover Barca\n\t- R para mover Robot\n\t- Z para mover Zorro\n\t- C para mover Conejo\n\t- L para mover Lechuga\n\t- Q para rendirte\n\n";
+  system("clear");
+  string _response;
+  cout << this -> name << ", ¿quieres ver las instrucciones del juego? [S/N] ";
+  getline(cin,_response);
+  _response = toupper(_response[0]);
+  if(_response == "S")
+  {
+    system("clear");
+    cout << "¡Bienvenido " << this -> name <<  "!\n\nEres un " << this -> principalCharacter -> getName() << " y tu misión es llevar todos los individuos a la otra orilla usando la " << this -> interfaceOfPlaces[1] -> getName() << ". No puedes dejar solos al zorro con el conejo, ni al conejo con la lechuga, porque el primero se devoraría al segundo. En la " << this -> interfaceOfPlaces[1] -> getName() << " solo caben " << this -> interfaceOfPlaces[1] -> getCapacity() << " individuos, y uno de ellos debes ser tú, para pilotarla.\n\n";
+  }
+  else
+    system("clear");
 }
 
-void Jugador::printPlaceRow(vector <Lugar *> &_places)
+void Jugador::showCommands()
 {
-  cout << "| ";
-  if(_places[0]->getName().length() < 9)
+  string _response;
+  cout << this -> name << ", ¿quieres ver comandos en el juego? [S/N] ";
+  getline(cin,_response);
+  _response = toupper(_response[0]);
+  if(_response == "S")
   {
-    int espacios = 9 - _places[0]->getName().length(); cout << _places[0] -> getName();
-    for(int i = 0;i < espacios; i++) cout << "⇝"; cout << " | ";
-  } 
-  else cout << _places[0] -> getName() << " | ";
-
-  for(int i = 1; i < 3; i++) 
-  {
-    if(_places[i]->getName().length() < 9)
-    {
-      int espacios = 9 - _places[i]->getName().length(); cout << _places[i] -> getName();
-      for(int i = 0;i < espacios; i++) cout << "∿"; cout << " | ";
-    } 
-    else cout << _places[i] -> getName() << " | ";
+    system("clear");
+    this -> commands = true;
   }
-
-  if(_places[3]->getName().length() < 9)
-  {
-    int espacios = 9 - _places[3]->getName().length(); cout << _places[3] -> getName();
-    for(int i = 0;i < espacios; i++) cout << "⇝"; cout << " | ";
-  } 
-  else cout << _places[3] -> getName() << " | ";
-
-  cout << endl;
+  else
+    system("clear");
+    this -> commands = false;
 }
 
-void Jugador::printCharacterRow(vector <Individuo *> &_character)
+void Jugador::commandsText()
 {
-  cout << "| ";
-  if(_character[0]->getName().length() < 9)
+  // cout << endl;
+  cout << "× (" << interfaceOfPlaces[1] -> getCommand() << ") = " << interfaceOfPlaces[1] -> getName() << endl;
+  for(int cual = 0; cual < this -> characterSizeInInterface; cual++)
   {
-    int espacios = 9 - _character[0]->getName().length(); cout << _character[0] -> getName();
-    for(int i = 0;i < espacios; i++) cout << "⇝"; cout << " | ";
-  } 
-  else cout << _character[0] -> getName() << " | ";
-
-  for(int i = 1; i < 3; i++) 
-  {
-    if(_character[i]->getName().length() < 9)
+    if(interfaceOfPlaces[0] -> getSizeOfCharacters() == 0)
     {
-      int espacios = 9 - _character[i]->getName().length(); cout << _character[i] -> getName();
-      for(int i = 0;i < espacios; i++) cout << "∿"; cout << " | ";
-    } 
-    else cout << _character[i] -> getName() << " | ";
+      cout << "× (" << interfaceOfPlaces[2] -> getCharacter(cual) -> getCommand() << ") = " << interfaceOfPlaces[2] -> getCharacter(cual) -> getName() << endl;
+    }
+    else
+    {
+      cout << "× (" << interfaceOfPlaces[0] -> getCharacter(cual) -> getCommand() << ") = " << interfaceOfPlaces[0] -> getCharacter(cual) -> getName() << endl;
+    }
   }
+  cout << "× (I) = INSTRUCCIONES" << endl;
+  cout << "× (Q) = RENDIRTE" << endl;
+}
 
-  if(_character[3]->getName().length() < 9)
+void Jugador::symbolsForPlaces(int _index, string _symbol, string _separatedBy)
+{
+  if(interfaceOfPlaces[_index]->getName().length() < 9)
   {
-    int espacios = 9 - _character[3]->getName().length(); cout << _character[3] -> getName();
-    for(int i = 0;i < espacios; i++) cout << "⇝"; cout << " | ";
+    int symbol = 9 - interfaceOfPlaces[_index] -> getName().length(); 
+    cout << interfaceOfPlaces[_index] -> getName();
+    for(int i = 0;i < symbol; i++)
+      cout << _symbol; 
+    cout << _separatedBy;
   } 
-  else cout << _character[3] -> getName() << " | ";
+  else 
+    cout << interfaceOfPlaces[_index] -> getName() << _separatedBy;
+}
 
-  cout << endl;
+void Jugador::symbolsForCharacters(int _index, int _character, string _symbol, string _separatedBy, bool _preSymbols, string _preSymbol)
+{
+  if(interfaceOfPlaces[_index]->getCharacter(_character) == nullptr)
+  {
+    if(_preSymbols)
+      cout << _preSymbol;
+    cout << "...";
+    for(int i = 0;i < 6; i++)
+      cout << _symbol; 
+    cout << _separatedBy;
+  } 
+  else
+  {
+    if(interfaceOfPlaces[_index]->getCharacter(_character)->getName().length() < 9)
+    {
+      if(_preSymbols)
+        cout << _preSymbol;
+      int symbol = 9 - interfaceOfPlaces[_index]->getCharacter(_character)->getName().length();
+      cout << interfaceOfPlaces[_index] -> getCharacter(_character)->getName();
+      for(int i = 0;i < symbol; i++)
+        cout << _symbol; 
+      cout << _separatedBy;
+    }
+    else
+    {
+      if(_preSymbols)
+        cout << _preSymbol;
+      cout << interfaceOfPlaces[_index] -> getCharacter(_character)->getName() << _separatedBy;
+    }
+  }
+}
+
+void Jugador::symbolsForTop_BottomRows(bool _state)
+{
+  if(_state)
+    cout << "\n+";
+  else
+    cout << "+";
+  for(int i = 0; i < 47; i++) 
+    cout << "-"; 
+  cout << "+\n";
 }
 
 void Jugador::createInterface(bool _state)
 {
   do{
-    cout << "+"; for(int i = 0; i < 47; i++) cout << "-"; cout << "+" << endl;
+    if(this -> commands)
+      this -> commandsText();
 
-    this -> printPlaceRow(places);
-    this -> printCharacterRow(charactersRowOne);
-    this -> printCharacterRow(charactersRowTwo);
-    this -> printCharacterRow(charactersRowThree);
-    this -> printCharacterRow(charactersRowFour);
+    this -> symbolsForTop_BottomRows(false);
 
-    cout << "+"; for(int i = 0; i < 47; i++) cout << "-"; cout << "+" << endl;
+    // Para Lugares
+
+    cout << "| ";
+    for(int which = 0; which < this -> interfaceSize; which++)
+    {
+      switch(which)
+      {
+        case 0:
+          this -> symbolsForPlaces(which,"⇝"," | ");
+          break;
+        case 1:
+          if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr))
+          {
+            this -> symbolsForPlaces(which,"∿"," | ");
+            cout << "∿∿∿∿∿∿∿∿∿ | ";
+          }
+          else 
+          {
+            cout << "∿∿∿∿∿∿∿∿∿ | ";
+            this -> symbolsForPlaces(which,"∿"," | ");
+          }
+          break;
+        case 2:
+          this -> symbolsForPlaces(which,"⇝"," | ");
+          break;
+      }
+    }
+
+    // Para personajes
+
+    for(int whichCharacter = 0; whichCharacter < this -> characterSizeInInterface; whichCharacter++)
+    {
+      cout << "\n| ";
+
+      // Para primera fila
+
+      this -> symbolsForCharacters(0,whichCharacter,"⇝"," | ",false,"");
+
+      if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr))
+      {
+        this -> symbolsForCharacters(1,whichCharacter,"∿"," | ∿∿∿∿∿∿∿∿∿ | ",false,"");
+      } 
+      else 
+      {
+        this -> symbolsForCharacters(1,whichCharacter,"∿"," | ",true,"∿∿∿∿∿∿∿∿∿ | ");
+      }
+
+      // Para cuarta fila
+
+      this -> symbolsForCharacters(2,whichCharacter,"⇝"," | ",false,"");
+    }
+
+    this -> symbolsForTop_BottomRows(true);
 
     if(_state == true)
-    {
       this -> whatDoYouWantToMove();
-    }
   } while(this -> play == true);
+}
+
+void Jugador::introducePlaces(Lugar *_place)
+{
+  this -> interfaceOfPlaces.push_back(_place);
+}
+
+void Jugador::introduceCharacter(Lugar *_insertInto, Individuo * _character)
+{
+  _insertInto -> introduceCharacter(_character);
+}
+
+void Jugador::takeCharacter(Lugar *_takeFrom, Individuo * _character)
+{
+  _takeFrom -> takeCharacter(_character);
 }
 
 void Jugador::whatDoYouWantToMove()
 {
-  string mover;
-  cout << "\n¿Que desea mover? "; getline(cin,mover);
-  mover = toupper(mover[0]);
+  string move;
+  cout << "\n¿Que deseas mover " << this -> name << "? "; 
+  getline(cin,move);
+  move = toupper(move[0]);
 
-  if(mover[0] == 'B')
+  if(move == "B")
   {
-    if((places[1]->getId() == 2 && charactersRowOne[1]->getId() == 3) || (places[2]->getId() == 2 && charactersRowOne[2]->getId() == 3))
+    if(interfaceOfPlaces[2] -> haveNeighbor(nullptr))
     {
-      Lugar *aux = places[1];
-      places[1] = places[2];
-      places[2] = aux;
-      Individuo *aux2 = charactersRowOne[1];
-      charactersRowOne[1] = charactersRowOne[2];
-      charactersRowOne[2] = aux2;
-      Individuo *aux3 = charactersRowTwo[1];
-      charactersRowTwo[1] = charactersRowTwo[2];
-      charactersRowTwo[2] = aux3;
-      Individuo *aux4 = charactersRowThree[1];
-      charactersRowThree[1] = charactersRowThree[2];
-      charactersRowThree[2] = aux4;
-      Individuo *aux5 = charactersRowFour[1];
-      charactersRowFour[1] = charactersRowFour[2];
-      charactersRowFour[2] = aux5;
-    }
-    if((places[2]->getId() == 2 && charactersRowOne[2]->getId() == 3 && charactersRowThree[0]->getId() == 5 && charactersRowFour[0]->getId() == 6) || (places[1]->getId() == 2 && charactersRowOne[1]->getId() == 3 && charactersRowThree[3]->getId() == 5 && charactersRowFour[3]->getId() == 6))
-    {
-      this -> play = false;
-      system("clear");
-      cout << "\nPERDISTE\n\nEl conejo se comio la lechuga :c\n\n";
-      this -> createInterface(false);
-    } 
-    else if((places[2]->getId() == 2 && charactersRowOne[2]->getId() == 3 && charactersRowTwo[0]->getId() == 4 && charactersRowThree[0]->getId() == 5) || (places[1]->getId() == 2 && charactersRowOne[1]->getId() == 3 && charactersRowTwo[3]->getId() == 4 && charactersRowThree[3]->getId() == 5))
-    {
-      this -> play = false;
-      system("clear");
-      cout << "\nPERDISTE\n\nEl zorro se comio el conejo :c\n\n";
-      this -> createInterface(false);
-    } 
-    else
-    {
-      this -> clear();
-    }
-
-  }
-
-
-
-
-  else if(mover[0] == 'R')
-  {
-    if(
-      (places[1] -> getId() == 2 && 
-      (// Evaluar zorro y conejo
-      (charactersRowOne[1] -> getId() == 0 && 
-      charactersRowTwo[1] -> getId() == 4 && 
-      charactersRowThree[1] -> getId() == 5 && 
-      charactersRowFour[1] -> getId() == 0) ||
-      // Evaluar zorro y lechuga
-      (charactersRowOne[1] -> getId() == 0 && 
-      charactersRowTwo[1] -> getId() == 4 && 
-      charactersRowThree[1] -> getId() == 0 && 
-      charactersRowFour[1] -> getId() == 6) ||
-      // Evaluar conejo y lechuga
-      (charactersRowOne[1] -> getId() == 0 && 
-      charactersRowTwo[1] -> getId() == 0 && 
-      charactersRowThree[1] -> getId() == 5 && 
-      charactersRowFour[1] -> getId() == 6))) ||
-
-      // Para orilla derecha
-      
-      (places[2] -> getId() == 2 && 
-      (// Evaluar zorro y conejo
-      (charactersRowOne[2] -> getId() == 0 && 
-      charactersRowTwo[2] -> getId() == 4 && 
-      charactersRowThree[2] -> getId() == 5 && 
-      charactersRowFour[2] -> getId() == 0) ||
-      // Evaluar zorro y lechuga
-      (charactersRowOne[2] -> getId() == 0 && 
-      charactersRowTwo[2] -> getId() == 4 && 
-      charactersRowThree[2] -> getId() == 0 && 
-      charactersRowFour[2] -> getId() == 6) ||
-      // Evaluar conejo y lechuga
-      (charactersRowOne[2] -> getId() == 0 && 
-      charactersRowTwo[2] -> getId() == 0 && 
-      charactersRowThree[2] -> getId() == 5 && 
-      charactersRowFour[2] -> getId() == 6)))
-      )
-    {
-      // cout << "Se cumplio\n\n";
-    }
-    else if(places[1] -> getId() == 2 && charactersRowOne[0] -> getId() == 3 && charactersRowOne[1] -> getId() == 0)
-    {
-      this -> nextSpot(1,1,0,1);
-    } 
-    else if(places[1] -> getId() == 2 && charactersRowOne[1] -> getId() == 3 && charactersRowOne[0] -> getId() == 0)
-    {
-      this -> nextSpot(1,1,1,0);
-    }
-    else if(places[2] -> getId() == 2 && charactersRowOne[2] -> getId() == 3 && charactersRowOne[3] -> getId() == 0)
-    {
-      this -> nextSpot(1,2,2,3);
-    }
-    else if(places[2] -> getId() == 2 && charactersRowOne[3] -> getId() == 3 && charactersRowOne[2] -> getId() == 0)
-    {
-      this -> nextSpot(1,2,3,2);
-    }
-
-    if(places[2] -> getId() == 2 && charactersRowOne[3] -> getId() == 3 && charactersRowTwo[3] -> getId() == 4 && charactersRowThree[3] -> getId() == 5 && charactersRowFour[3] -> getId() == 6)
-    {
-      this -> play = false;
-      system("clear");
-      cout << "\nGANASTE\n\nTodos los individuos han llegado\n\n";
-      this -> createInterface(false);
+      interfaceOfPlaces[1] -> setNeighbor(interfaceOfPlaces[2]);
+      interfaceOfPlaces[1] -> setNextNeighbor(interfaceOfPlaces[0]);
+      interfaceOfPlaces[0] -> setNeighbor(nullptr);
+      interfaceOfPlaces[0] -> setNextNeighbor(interfaceOfPlaces[1]);
+      interfaceOfPlaces[2] -> setNeighbor(interfaceOfPlaces[1]);
+      interfaceOfPlaces[2] -> setNextNeighbor(nullptr);
     }
     else 
     {
-      this -> clear();
+      interfaceOfPlaces[1] -> setNeighbor(interfaceOfPlaces[0]);
+      interfaceOfPlaces[1] -> setNextNeighbor(interfaceOfPlaces[2]);
+      interfaceOfPlaces[0] -> setNeighbor(interfaceOfPlaces[1]);
+      interfaceOfPlaces[0] -> setNextNeighbor(nullptr);
+      interfaceOfPlaces[2] -> setNeighbor(nullptr);
+      interfaceOfPlaces[2] -> setNextNeighbor(interfaceOfPlaces[1]);
     }
   }
-
-
-
-
-
-
-
-  else if(mover[0] == 'Z')
+  else if(move == "R")
   {
-    if(
-      (places[1] -> getId() == 2 && 
-      (// Evaluar conejo y lechuga
-      (charactersRowOne[1] -> getId() == 0 && 
-      charactersRowTwo[1] -> getId() == 0 && 
-      charactersRowThree[1] -> getId() == 5 && 
-      charactersRowFour[1] -> getId() == 6) ||
-      // Evaluar conejo y robot
-      (charactersRowOne[1] -> getId() == 3 && 
-      charactersRowTwo[1] -> getId() == 0 && 
-      charactersRowThree[1] -> getId() == 5 && 
-      charactersRowFour[1] -> getId() == 0) ||
-      // Evaluar robot y lechuga
-      (charactersRowOne[1] -> getId() == 3 && 
-      charactersRowTwo[1] -> getId() == 0 && 
-      charactersRowThree[1] -> getId() == 0 && 
-      charactersRowFour[1] -> getId() == 6))) ||
-      
-      // Orilla derecha
-      (places[2] -> getId() == 2 && 
-      (// Evaluar conejo y lechuga
-      (charactersRowOne[2] -> getId() == 0 && 
-      charactersRowTwo[2] -> getId() == 0 && 
-      charactersRowThree[2] -> getId() == 5 && 
-      charactersRowFour[2] -> getId() == 6) ||
-      // Evaluar conejo y robot
-      (charactersRowOne[2] -> getId() == 3 && 
-      charactersRowTwo[2] -> getId() == 0 && 
-      charactersRowThree[2] -> getId() == 5 && 
-      charactersRowFour[2] -> getId() == 0) ||
-      // Evaluar robot y lechuga
-      (charactersRowOne[2] -> getId() == 3 && 
-      charactersRowTwo[2] -> getId() == 0 && 
-      charactersRowThree[2] -> getId() == 0 && 
-      charactersRowFour[2] -> getId() == 6)))
-      )
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr))
     {
-      // cout << "Se cumplio\n\n";
+      if(interfaceOfPlaces[0] -> getCharacter("ROBOT") != nullptr)
+      {
+        this -> introduceCharacter(interfaceOfPlaces[1], interfaceOfPlaces[0] -> getCharacter("ROBOT"));
+        this -> interfaceOfPlaces[0] -> takeCharacter(interfaceOfPlaces[0] -> getCharacter("ROBOT"));
+      }
     }
-    else if(places[1] -> getId() == 2 && charactersRowTwo[0] -> getId() == 4 && charactersRowTwo[1] -> getId() == 0)
+    else if(1 == 1)
     {
-      this -> nextSpot(2,1,0,1);
-    } 
-    else if(places[1] -> getId() == 2 && charactersRowTwo[1] -> getId() == 4 && charactersRowTwo[0] -> getId() == 0)
-    {
-      this -> nextSpot(2,1,1,0);
-    }
-    else if(places[2] -> getId() == 2 && charactersRowTwo[2] -> getId() == 4 && charactersRowTwo[3] -> getId() == 0)
-    {
-      this -> nextSpot(2,2,2,3);
-    }
-    else if(places[2] -> getId() == 2 && charactersRowTwo[3] -> getId() == 4 && charactersRowTwo[2] -> getId() == 0)
-    {
-      this -> nextSpot(2,2,3,2);
-    }
-    
 
-    this -> clear();
-  }
-
-
-
-
-  
-  else if(mover[0] == 'C')
-  {
-    if(
-      (places[1] -> getId() == 2 && 
-      (// Evaluar robot y zorro
-      (charactersRowOne[1] -> getId() == 3 && 
-      charactersRowTwo[1] -> getId() == 4 && 
-      charactersRowThree[1] -> getId() == 0 && 
-      charactersRowFour[1] -> getId() == 0) ||
-      // Evaluar robot y lechuga
-      (charactersRowOne[1] -> getId() == 3 && 
-      charactersRowTwo[1] -> getId() == 0 && 
-      charactersRowThree[1] -> getId() == 0 && 
-      charactersRowFour[1] -> getId() == 6) ||
-      // Evaluar zorro y lechuga
-      (charactersRowOne[1] -> getId() == 0 && 
-      charactersRowTwo[1] -> getId() == 4 && 
-      charactersRowThree[1] -> getId() == 0 && 
-      charactersRowFour[1] -> getId() == 6))) || 
-
-      // Para orilla derecha
-      
-      (places[2] -> getId() == 2 && 
-      (// Evaluar robot y zorro
-      (charactersRowOne[2] -> getId() == 3 && 
-      charactersRowTwo[2] -> getId() == 4 && 
-      charactersRowThree[2] -> getId() == 0 && 
-      charactersRowFour[2] -> getId() == 0) ||
-      // Evaluar robot y lechuga
-      (charactersRowOne[2] -> getId() == 3 && 
-      charactersRowTwo[2] -> getId() == 0 && 
-      charactersRowThree[2] -> getId() == 0 && 
-      charactersRowFour[2] -> getId() == 6) ||
-      // Evaluar zorro y lechuga
-      (charactersRowOne[2] -> getId() == 0 && 
-      charactersRowTwo[2] -> getId() == 4 && 
-      charactersRowThree[2] -> getId() == 0 && 
-      charactersRowFour[2] -> getId() == 6)))
-      )
-    {
-      // cout << "Se cumplio\n\n";
     }
-    else if(places[1] -> getId() == 2 && charactersRowThree[0] -> getId() == 5 && charactersRowThree[1] -> getId() == 0)
+    else if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]))
     {
-      this -> nextSpot(3,1,0,1);
-    } 
-    else if(places[1] -> getId() == 2 && charactersRowThree[1] -> getId() == 5 && charactersRowThree[0] -> getId() == 0)
-    {
-      this -> nextSpot(3,1,1,0);
-    }
-    else if(places[2] -> getId() == 2 && charactersRowThree[2] -> getId() == 5 && charactersRowThree[3] -> getId() == 0)
-    {
-      this -> nextSpot(3,2,2,3);
-    }
-    else if(places[2] -> getId() == 2 && charactersRowThree[3] -> getId() == 5 && charactersRowThree[2] -> getId() == 0)
-    {
-      this -> nextSpot(3,2,3,2);
-    }
-
-    if(places[2] -> getId() == 2 && charactersRowOne[3] -> getId() == 3 && charactersRowTwo[3] -> getId() == 4 && charactersRowThree[3] -> getId() == 5 && charactersRowFour[3] -> getId() == 6)
-    {
+      this -> interfaceOfPlaces[0] -> takeCharacter(interfaceOfPlaces[0] -> getCharacter("ROBOT"));
       this -> play = false;
-      system("clear");
-      cout << "\nGANASTE\n\nTodos los individuos han llegado\n\n";
-      this -> createInterface(false);
-    }
-    else 
-    {
-      this -> clear();
+      cout << "El ROBOT se ahogo.";
     }
   }
-  
-
-
-
-  
-  else if(mover[0] == 'L')
+  else if(move == "Q")
   {
-    if(
-      (places[1] -> getId() == 2 && 
-      (// Evaluar robot y zorro
-      (charactersRowOne[1] -> getId() == 3 && 
-      charactersRowTwo[1] -> getId() == 4 && 
-      charactersRowThree[1] -> getId() == 0 && 
-      charactersRowFour[1] -> getId() == 0) ||
-      // Evaluar zorro y conejo
-      (charactersRowOne[1] -> getId() == 0 && 
-      charactersRowTwo[1] -> getId() == 4 && 
-      charactersRowThree[1] -> getId() == 5 && 
-      charactersRowFour[1] -> getId() == 0) ||
-      // Evaluar robot y conejo
-      (charactersRowOne[1] -> getId() == 3 && 
-      charactersRowTwo[1] -> getId() == 0 && 
-      charactersRowThree[1] -> getId() == 5 && 
-      charactersRowFour[1] -> getId() == 0))) ||
-      
-      // Para orilla derecha
-      
-      (places[2] -> getId() == 2 && 
-      (// Evaluar robot y zorro
-      (charactersRowOne[2] -> getId() == 3 && 
-      charactersRowTwo[2] -> getId() == 4 && 
-      charactersRowThree[2] -> getId() == 0 && 
-      charactersRowFour[2] -> getId() == 0) ||
-      // Evaluar zorro y conejo
-      (charactersRowOne[2] -> getId() == 0 && 
-      charactersRowTwo[2] -> getId() == 4 && 
-      charactersRowThree[2] -> getId() == 5 && 
-      charactersRowFour[2] -> getId() == 0) ||
-      // Evaluar robot y conejo
-      (charactersRowOne[2] -> getId() == 3 && 
-      charactersRowTwo[2] -> getId() == 0 && 
-      charactersRowThree[2] -> getId() == 5 && 
-      charactersRowFour[2] -> getId() == 0)))
-      )
-    {
-      // cout << "Se cumplio\n\n";
-    }
-    else if(places[1] -> getId() == 2 && charactersRowFour[0] -> getId() == 6 && charactersRowFour[1] -> getId() == 0)
-    {
-      this -> nextSpot(4,1,0,1);
-    } 
-    else if(places[1] -> getId() == 2 && charactersRowFour[1] -> getId() == 6 && charactersRowFour[0] -> getId() == 0)
-    {
-      this -> nextSpot(4,1,1,0);
-    }
-    else if(places[2] -> getId() == 2 && charactersRowFour[2] -> getId() == 6 && charactersRowFour[3] -> getId() == 0)
-    {
-      this -> nextSpot(4,2,2,3);
-    }
-    else if(places[2] -> getId() == 2 && charactersRowFour[3] -> getId() == 6 && charactersRowFour[2] -> getId() == 0)
-    {
-      this -> nextSpot(4,2,3,2);
-    }
-    
-    this -> clear();
-  }
-  
-
-
-
-  
-  else if(mover[0] == 'Q')
-  {
-    this -> play = false;
     system("clear");
-    cout << "¡Hasta pronto! :D\n";
-  }
-
-
-
-
-
-  else 
-  {
-    this -> clear();
-  }
-} 
-
-
-void Jugador::introducePlace(Lugar *_place)
-{
-  this -> places.push_back(_place);
-}
-
-void Jugador::introduceCharacter(int _row,Individuo *_character)
-{
-  switch(_row){
-    case 1:
-      this -> charactersRowOne.push_back(_character);
-      break;
-    case 2:
-      this -> charactersRowTwo.push_back(_character);
-      break;
-    case 3:
-      this -> charactersRowThree.push_back(_character);
-      break;
-    case 4:
-      this -> charactersRowFour.push_back(_character);
-      break;
-    default:
-      cout << "Algo salio mal\n\n";
-      break;
+    cout << "Gracias por jugar :D" << endl;
+    this -> play = false;
   }
 }
 
-void Jugador::clear()
+void Jugador::start(bool _state)
 {
-  system("clear");
-  cout << "\n\t- B para mover Barca\n\t- R para mover Robot\n\t- Z para mover Zorro\n\t- C para mover Conejo\n\t- L para mover Lechuga\n\t- Q para rendirte" << endl <<endl;
-  createInterface(true);
+  this -> play = _state;
+  this -> interfaceSize = interfaceOfPlaces.size();
+  if(interfaceOfPlaces[0] -> getSizeOfCharacters() > interfaceOfPlaces[2] -> getSizeOfCharacters())
+    this -> characterSizeInInterface = interfaceOfPlaces[0] -> getSizeOfCharacters();
+  else
+    this -> characterSizeInInterface = interfaceOfPlaces[2] -> getSizeOfCharacters();
+  this -> setName();
+  this -> setPrincipalCharacter();
+  this -> showInstructions();
+  this -> showCommands();
+  this -> createInterface(true);
 }
 
-void Jugador::nextSpot(int _character,int _place, int _from, int _to)
+void Jugador::setPrincipalCharacter()
 {
-  switch(_character)
-  {
-    case 1:
-      {
-        Individuo *aux = charactersRowOne[_from]; 
-        charactersRowOne[_from] = charactersRowOne[_to];
-        charactersRowOne[_to] = aux;
-      }
-      break;
-    case 2:
-      {
-        Individuo *aux = charactersRowTwo[_from];
-        charactersRowTwo[_from] = charactersRowTwo[_to];
-        charactersRowTwo[_to] = aux;
-      }
-      break;
-    case 3:
-      {
-        Individuo *aux = charactersRowThree[_from];
-        charactersRowThree[_from] = charactersRowThree[_to];
-        charactersRowThree[_to] = aux;
-      }
-      break;
-    case 4:
-      {
-        Individuo *aux = charactersRowFour[_from];
-        charactersRowFour[_from] = charactersRowFour[_to];
-        charactersRowFour[_to] = aux;
-      }
-      break;
-  }
+  for(int i = 0; i < interfaceOfPlaces.size(); i++)
+    for(int whichCharacter = 0; whichCharacter < interfaceOfPlaces[i]->getSizeOfCharacters(); whichCharacter++)
+      if(interfaceOfPlaces[i]->getCharacter(whichCharacter)->getIfItCanMoveBoat())
+        this -> principalCharacter = interfaceOfPlaces[i]->getCharacter(whichCharacter);
 }

@@ -1,39 +1,48 @@
+/*
+  Archivo: main.cpp
+  Autores: 
+* Jhon Abril <jhon.abril@correounivalle.edu.co>
+* Deisy Catalina Melo <deisy.melo@correounivalle.edu.co>
+* Luisa María Cardenas <cardenas.luisa@correounivalle.edu.co>
+  Fecha creación: 2021-09-12
+  Fecha última modificación: 2021-09-12
+  Licencia: GNU-GPL
+*/
+
+/*
+  HISTORIA: 
+  El juego consiste en lo siguiente: hay un robot que debe transportar un zorro, un conejo y una lechuga desde un lado del río hasta la otra orilla, usando una barca. En la barca solo cabe uno de los tres individuos, además del robot. El problema es que si el robot deja solos al zorro y el conejo, el zorro se comerá el conejo. Y si deja solos al conejo y la lechuga, el conejo se comerá la lechuga. El jugador debe controlar que órdenes dar, para lograr que el robot transporte los tres individuos a la otra orilla, sanos y salvos.
+*/
+
 #include "./HEADERS/Jugador.h"
 #include "./HEADERS/Lugar.h"
 #include "./HEADERS/EXTENDS FROM LUGAR/Barca.h"
 #include "./HEADERS/EXTENDS FROM LUGAR/Orilla.h"
 
-int main() 
+int main()
 {
   Jugador player;
-  player.introducePlace(new Orilla("IZQUIERDA",4,1));
-  player.introducePlace(new Barca("BARCA",2,2));
-  player.introducePlace(new Lugar("",0));
-  player.introducePlace(new Orilla("DERECHA",4,8));
-  // Introducir Individuo en primera fila
-  player.introduceCharacter(1, new Individuo("ROBOT", 3));
-  player.introduceCharacter(1, new Individuo("", 0));
-  player.introduceCharacter(1, new Individuo("", 0));
-  player.introduceCharacter(1, new Individuo("", 0));
-  // Introducir Individuo en segunda fila
-  player.introduceCharacter(2, new Individuo("ZORRO", 4));
-  player.introduceCharacter(2, new Individuo("", 0));
-  player.introduceCharacter(2, new Individuo("", 0));
-  player.introduceCharacter(2, new Individuo("", 0));
-  // Introducir Individuo en tercera fila
-  player.introduceCharacter(3, new Individuo("CONEJO", 5));
-  player.introduceCharacter(3, new Individuo("", 0));
-  player.introduceCharacter(3, new Individuo("", 0));
-  player.introduceCharacter(3, new Individuo("", 0));
-  // Introducir Individuo en cuarta fila
-  player.introduceCharacter(4, new Individuo("LECHUGA", 6));
-  player.introduceCharacter(4, new Individuo("", 0));
-  player.introduceCharacter(4, new Individuo("", 0));
-  player.introduceCharacter(4, new Individuo("", 0));
-  // Juego
+  Orilla left("izquierda",nullptr,nullptr);
+  Orilla right("derecha",nullptr,nullptr);
+  Barca boat("varquita",&left,&right);
+
+  right.setNextNeighbor(&boat);
+  left.setNeighbor(&boat);
+  // left.setNextNeighbor(&boat);
+  // right.setNeighbor(&boat);
+
+  player.introducePlaces(&left);
+  player.introducePlaces(&boat);
+  player.introducePlaces(&right);
+  // Personajes
+  Individuo lectuse("rechuga",nullptr);
+  Individuo rabbit("konejo",&lectuse);
+  Individuo fox("sorro",&rabbit);
+  Individuo robot("lobot",nullptr,true);
+  player.introduceCharacter(&left,&robot);
+  player.introduceCharacter(&left,&fox);
+  player.introduceCharacter(&left,&rabbit);
+  player.introduceCharacter(&left,&lectuse);
   player.start(true);
-  player.playersName();
-  player.showInstructions();
-  player.createInterface(true);
   return 0;
 }

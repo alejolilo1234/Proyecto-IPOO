@@ -1,11 +1,27 @@
+/*
+  Archivo: main.cpp
+  Autores: 
+* Jhon Abril <jhon.abril@correounivalle.edu.co>
+* Deisy Catalina Melo <deisy.melo@correounivalle.edu.co>
+* Luisa María Cardenas <cardenas.luisa@correounivalle.edu.co>
+  Fecha creación: 2021-09-12
+  Fecha última modificación: 2021-09-12
+  Licencia: GNU-GPL
+*/
+
 #include "../HEADERS/Lugar.h"
+#include <string.h>
 
 // Constructor y destructor de la clase Lugar.
 
-Lugar::Lugar(string _name,int _capacity)
+Lugar::Lugar(string _name, Lugar * _neighbor, Lugar * _nextNeighbor)
 {
-  this -> name = _name;
-  this -> capacity = _capacity;
+  string Name;
+  for(int posicion = 0;posicion < _name.size(); posicion++)
+    Name += toupper(_name[posicion]);
+  this -> name = Name;
+  this -> neighbor = _neighbor;
+  this -> nextNeighbor = _nextNeighbor;
 }
 
 Lugar::~Lugar()
@@ -14,11 +30,6 @@ Lugar::~Lugar()
 }
 
 // Getters de la clase Lugar.
-
-int Lugar::getId()
-{
-  return this -> id;
-}
 
 string Lugar::getName()
 {
@@ -30,30 +41,80 @@ int Lugar::getCapacity()
   return this -> capacity;
 }
 
-int Lugar::getCharactersSize()
+int Lugar::getSizeOfCharacters()
 {
   return this -> characters.size();
 }
-// Setters de la clase Lugar.
 
-void Lugar::setId(int _id)
+Individuo * Lugar::getCharacter(int _index)
 {
-  this -> id = _id;
+  if(!characters.empty())
+    if(_index < characters.size())
+      return this -> characters[_index];
+  return nullptr;
 }
 
-void Lugar::setName(string _name)
+Individuo * Lugar::getCharacter(string _charater)
 {
-  this -> name = _name;
+  for(int which = 0; which < this -> characters.size(); which++)
+  {
+    if(characters[which] -> getName() == _charater)
+    {
+      return characters[which];
+    }
+  }
+  return nullptr;
+}
+
+string Lugar::getCommand()
+{
+  return this -> command;
+}
+
+// Setters de la clase Lugar.
+
+void Lugar::setNeighbor(Lugar * _neighbor)
+{
+  this -> neighbor = _neighbor;
+}
+
+void Lugar::setNextNeighbor(Lugar * _nextNeighbor)
+{
+  this -> nextNeighbor = _nextNeighbor;
+}
+
+void Lugar::setCapacity(int _capacity)
+{
+  this -> capacity = _capacity;
+}
+
+void Lugar::setCommand(string _command)
+{
+  this -> command = _command;
 }
 
 // Métodos de la clase Lugar.
+
+bool Lugar::haveNeighbor(Lugar * _place)
+{
+  if(_place == this -> neighbor)
+    return true;
+  return false;
+}
 
 void Lugar::introduceCharacter(Individuo *_character)
 {
   this -> characters.push_back(_character);
 }
 
-void Lugar::takeOutCharacter()
+void Lugar::takeCharacter(Individuo *_character)
 {
-  this -> characters.pop_back();
+  for(int which = 0; which < characters.size(); which++)
+  {
+    if(characters[which] == _character)
+    {
+      this -> characters.erase(characters.begin() + which);
+    }
+  }
+  // this -> characters.push_back(_character);
 }

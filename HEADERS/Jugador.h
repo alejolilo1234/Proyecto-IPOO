@@ -1,3 +1,20 @@
+/*
+  Archivo: Concursante.h
+  Autores: 
+* Jhon Abril <jhon.abril@correounivalle.edu.co>
+* Deisy Catalina Melo <deisy.melo@correounivalle.edu.co>
+* Luisa María Cardenas <cardenas.luisa@correounivalle.edu.co>
+  Fecha creación: 2021-09-12
+  Fecha última modificación: 2021-09-12
+  Licencia: GNU-GPL
+*/
+
+/**
+  CLASE:
+  INTENCIÓN:
+  RELACIONES:
+*/
+
 #ifndef JUGADOR_H
 #define JUGADOR_H
 
@@ -9,15 +26,14 @@
 class Jugador 
 {
   private:
-  // int id = 1;
   string name;
-  vector <Lugar *> places;
-  vector <Individuo *> charactersRowOne;
-  vector <Individuo *> charactersRowTwo;
-  vector <Individuo *> charactersRowThree;
-  vector <Individuo *> charactersRowFour;
+  Individuo * principalCharacter;
   bool play;
-
+  bool commands;
+  int interfaceSize;
+  int characterSizeInInterface;
+  vector <Lugar *> interfaceOfPlaces;
+  
   public:
   // Constructor y destructor de la clase Jugador.
 
@@ -33,37 +49,40 @@ class Jugador
   // Getters de la clase Jugador.
   
   // Setters de la clase Jugador.
+
+  void setName();
+
+  void setPrincipalCharacter();
+
+  // void setOnlyOnePrincipalCharacter();
   
   // Métodos de la clase Jugador.
 
-  /**
-  Método que inicia el juego.
-  */
-  void start(bool);
-  /**
-  Método para pedirle el nombre al jugador.
-  */
-  void playersName();
-  /**
-  Método para mostrar instrucciones.
-  */
   void showInstructions();
 
-  void printPlaceRow(vector <Lugar *> &);
-  void printCharacterRow(vector <Individuo *> &);
-  /**
-  Método para crear interfaz.
-  */
+  void showCommands();
+
+  void commandsText();
+
+  void symbolsForPlaces(int,string,string);
+
+  void symbolsForCharacters(int,int,string,string,bool,string);
+
+  void symbolsForTop_BottomRows(bool);
+
   void createInterface(bool);
-  /**
-  Método para preguntar a usuario que desea mover.
-  */
+
+  void introducePlaces(Lugar *);
+
+  void introduceCharacter(Lugar *, Individuo *);
+
+  void takeCharacter(Lugar *, Individuo *);
+
   void whatDoYouWantToMove();
 
-  void introducePlace(Lugar *);
-  void introduceCharacter(int, Individuo *);
-  void clear();
-  void nextSpot(int, int, int, int);
+  void start(bool);
+  
+  void imprimirIndividuosMover();
 };
 
 #else 
