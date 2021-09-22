@@ -58,7 +58,7 @@ Individuo * Lugar::getCharacter(string _charater)
 {
   for(int which = 0; which < this -> characters.size(); which++)
   {
-    if(characters[which] -> getName() == _charater)
+    if(characters[which] -> getCommand() == _charater)
     {
       return characters[which];
     }
@@ -93,10 +93,6 @@ void Lugar::setCommand(string _command)
   this -> command = _command;
 }
 
-void setPredators()
-{
-  
-}
 
 // Métodos de la clase Lugar.
 

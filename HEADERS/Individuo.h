@@ -54,6 +54,8 @@ class Individuo
 
   bool getIfItCanMoveBoat();
 
+  Individuo * getPrey();
+
   // Setters de la clase Individuo.
 
   void setName(string);

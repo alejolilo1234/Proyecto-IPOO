@@ -36,17 +36,15 @@ int main()
   player.introducePlaces(&right);
   // Personajes
   Individuo lectuse("lechuga");
-  Individuo shoe("zapato");
-  Individuo car("carro");
   Individuo rabbit("conejo",&lectuse);
   Individuo fox("zorro",&rabbit);
   Individuo robot("robot",true);
+  Individuo robot2("robot2",true);
   player.introduceCharacter(&left,&robot);
+  player.introduceCharacter(&left,&robot2);
   player.introduceCharacter(&left,&fox);
   player.introduceCharacter(&left,&rabbit);
   player.introduceCharacter(&left,&lectuse);
-  player.introduceCharacter(&left,&shoe);
-  // player.introduceCharacter(&boat,&car);
   player.start(true);
   return 0;
 }

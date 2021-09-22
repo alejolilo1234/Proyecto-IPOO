@@ -65,35 +65,31 @@ void Jugador::setLengthOfNames()
 
 void Jugador::setNameAndCommand()
 {
-  this -> nameAndCommand.push_back("× (" + interfaceOfPlaces[1] -> getCommand() + ") = " + interfaceOfPlaces[1] -> getName());
-  for(int cual = 0; cual < this -> characterSizeInInterface; cual++)
-  {
-    if(interfaceOfPlaces[0] -> getSizeOfCharacters() == 0)
-      this -> nameAndCommand.push_back("× (" + interfaceOfPlaces[2] -> getCharacter(cual) -> getCommand() + ") = " + interfaceOfPlaces[2] -> getCharacter(cual) -> getName());
-    else
-      this -> nameAndCommand.push_back("× (" + interfaceOfPlaces[0] -> getCharacter(cual) -> getCommand() + ") = " + interfaceOfPlaces[0] -> getCharacter(cual) -> getName());
-  }
-  this -> nameAndCommand.push_back("× (I) = INSTRUCCIONES");
-  this -> nameAndCommand.push_back("× (Q) = RENDIRTE");
+  for(int i = 0; i < interfaceOfPlaces.size(); i++)
+    for(int whichCharacter = 0; whichCharacter < interfaceOfPlaces[i]->getSizeOfCharacters(); whichCharacter++)
+      if(interfaceOfPlaces[i]->getCharacter(whichCharacter) != nullptr)
+        this -> nameAndCommand.push_back(interfaceOfPlaces[i]->getCharacter(whichCharacter));
 }
 
 void Jugador::setUniqueCommands()
 {
   srand(time(NULL));
   
-  for(int cual = 0; cual < interfaceOfPlaces.size(); cual++)
-    this -> stringCommands.push_back(this -> interfaceOfPlaces[cual]->getCommand());
+  vector <string> stringCommands;
+  vector <string> availableCommands = {
+    "A","C","D","E","F","G","H","J","K","M","N","O","P","S","T","U","V","W","X","Y"
+  };
 
   for(int i = 0; i < interfaceOfPlaces.size(); i++)
     for(int whichCharacter = 0; whichCharacter < interfaceOfPlaces[i]->getSizeOfCharacters(); whichCharacter++)
     {
-      if(this -> isDuplicated(this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->getCommand(),this -> stringCommands))
+      if(this -> isDuplicated(this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->getCommand(),stringCommands))
       {
-        this -> deleteCommand(this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->getCommand(),this -> availableCommands);
-        string newCommand = this -> availableCommands[rand() % this -> availableCommands.size() + 1];
+        this -> deleteCommand(this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->getCommand(),availableCommands);
+        string newCommand = availableCommands[rand() % availableCommands.size() + 1];
         this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->setCommand(newCommand);
       }
-      this -> stringCommands.push_back(this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->getCommand());
+      stringCommands.push_back(this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->getCommand());
     }
 }
 
@@ -112,6 +108,16 @@ void Jugador::deleteCommand(string _char,vector <string> &_vector)
       _vector.erase(_vector.begin() + i);
 }
 
+void Jugador::setPredators()
+{
+  for(int i = 0; i < this -> nameAndCommand.size();i++)
+  {
+    if(nameAndCommand[i]->getPrey() != nullptr)
+    {
+      this -> predators.push_back(nameAndCommand[i]);
+    }
+  }
+}
 
 // Métodos de la clase Jugador.
 
@@ -132,7 +138,15 @@ void Jugador::showInstructions(bool _state)
     system("clear");
     if(_state)
       cout << "¡Bienvenido " << this -> name <<  "!\n\n";
-    cout << "Eres un " << this -> principalCharacter -> getName() << " y tu misión es llevar todos los individuos a la otra orilla usando la " << this -> interfaceOfPlaces[1] -> getName() << ". No puedes dejar solos al zorro con el conejo, ni al conejo con la lechuga, porque el primero se devoraría al segundo. En la " << this -> interfaceOfPlaces[1] -> getName() << " solo caben " << this -> interfaceOfPlaces[1] -> getCapacity() << " individuos, y uno de ellos debes ser tú, para pilotarla.\n\n";
+    cout << "Eres un " << this -> principalCharacter -> getName() << " y tu misión es llevar todos los individuos a la otra orilla usando " << this -> interfaceOfPlaces[1] -> getName() << ". No puedes dejar solos al"; 
+    // cout << " al zorro con el conejo, ni al conejo con la lechuga,";
+    for(int i = 0; i < predators.size(); i++)
+    {
+      if(i >= 1)
+        cout << " o";
+      cout << " " << predators[i]->getName() << " con " << predators[i]->getPrey()->getName();
+    }
+    cout << " porque el primero se devoraría al segundo. En la " << this -> interfaceOfPlaces[1] -> getName() << " solo caben " << this -> interfaceOfPlaces[1] -> getCapacity() << " individuos, y uno de ellos debes ser tú para pilotarla.\n\n";
   }
   else
     system("clear");
@@ -216,8 +230,13 @@ void Jugador::createInterface(bool _state,bool _printCommands)
   do{
     if(this -> commands && _printCommands)
     {
+      cout << "× (" << interfaceOfPlaces[1]->getCommand() << ") = " << interfaceOfPlaces[1]->getName() << endl;
       for(int i = 0; i < this -> nameAndCommand.size(); i++)
-        cout << this -> nameAndCommand[i] << endl;
+      {
+        cout << "× (" << nameAndCommand[i]->getCommand() << ") = " << nameAndCommand[i] -> getName() << endl;
+      }
+      cout << "× (I) = INSTRUCCIONES" << endl;
+      cout << "× (Q) = RENDIRTE" << endl;
       cout << endl;
     }
 
@@ -339,31 +358,51 @@ int Jugador::whatDoYouWantToMove()
   }
   else if(move == "R")
   {
-    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[1] -> getCharacter("ROBOT") != nullptr)
+
+    // Para cuando individuo se encuentra en la orilla izquierda y la barca es vecina
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[0] -> getCharacter("R") != nullptr)
     {
-      // if(interfaceOfPlaces[1] -> getCharacter("ROBOT") -> getName() == "ROBOT")
-      // {
-        this -> introduceCharacter(interfaceOfPlaces[0], interfaceOfPlaces[1] -> getCharacter("ROBOT"));
-        this -> takeCharacter(interfaceOfPlaces[1],interfaceOfPlaces[1] -> getCharacter("ROBOT"));
-        return 0;
-      // }
+      this -> introduceCharacter(interfaceOfPlaces[1], interfaceOfPlaces[0] -> getCharacter("R"));
+      this -> takeCharacter(interfaceOfPlaces[0],interfaceOfPlaces[0] -> getCharacter("R"));
+      return 0;
     }
-    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[0] -> getCharacter("ROBOT") != nullptr)
+
+    // Para cuando individuo se encuentra en la barca y la vecino de barca es orilla izquierda
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[1] -> getCharacter("R") != nullptr)
     {
-      // if(interfaceOfPlaces[0] -> getCharacter("ROBOT") -> getName() == "ROBOT")
-      // {
-        this -> introduceCharacter(interfaceOfPlaces[1], interfaceOfPlaces[0] -> getCharacter("ROBOT"));
-        this -> takeCharacter(interfaceOfPlaces[0],interfaceOfPlaces[0] -> getCharacter("ROBOT"));
-        return 0;
-      // }
-      // else 
-      // for(int i = 0;i<interfaceOfPlaces[0]->getSizeOfCharacters();i++)
-      //   cout << interfaceOfPlaces[0]->getCharacter(i)->getName() << endl;
+      this -> introduceCharacter(interfaceOfPlaces[0], interfaceOfPlaces[1] -> getCharacter("R"));
+      this -> takeCharacter(interfaceOfPlaces[1],interfaceOfPlaces[1] -> getCharacter("R"));
+      return 0;
+    }
+
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[1] -> getCharacter("R") != nullptr)
+    {
+      this -> introduceCharacter(interfaceOfPlaces[2], interfaceOfPlaces[1] -> getCharacter("R"));
+      this -> takeCharacter(interfaceOfPlaces[1],interfaceOfPlaces[1] -> getCharacter("R"));
+      return 0;
+    }
+
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> getCharacter("R") != nullptr)
+    {
+      this -> introduceCharacter(interfaceOfPlaces[1], interfaceOfPlaces[2] -> getCharacter("R"));
+      this -> takeCharacter(interfaceOfPlaces[2],interfaceOfPlaces[1] -> getCharacter("R"));
+      return 0;
     }
     
-    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]))
+    // Para cuando individuo barca se encuentra al otro lado y robot en orilla izquierda
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[0] -> getCharacter("R") != nullptr)
     {
-      this -> interfaceOfPlaces[0] -> takeCharacter(interfaceOfPlaces[0] -> getCharacter("ROBOT"));
+      this -> takeCharacter(interfaceOfPlaces[0],interfaceOfPlaces[0] -> getCharacter("R"));
+      system("clear");
+      this -> play = false;
+      cout << "El ROBOT se ahogo.\n\n";
+      this -> createInterface(false,false);
+      return 0;
+    }
+    
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> getCharacter("R") != nullptr)
+    {
+      this -> takeCharacter(interfaceOfPlaces[2],interfaceOfPlaces[2] -> getCharacter("R"));
       system("clear");
       this -> play = false;
       cout << "El ROBOT se ahogo.\n\n";
@@ -395,9 +434,10 @@ void Jugador::start(bool _state)
   else
     this -> characterSizeInInterface = interfaceOfPlaces[2] -> getSizeOfCharacters();
   this -> setUniqueCommands();
+  this -> setNameAndCommand();
+  this -> setPredators();
   this -> setName();
   this -> setPrincipalCharacter();
-  this -> setNameAndCommand();
   this -> showInstructions(true);
   this -> showCommands();
   this -> setLengthOfNames();

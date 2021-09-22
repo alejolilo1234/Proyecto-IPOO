@@ -52,7 +52,12 @@ bool Individuo::getIfItCanMoveBoat()
 {
   return this -> canMoveBoat;
 }
-  
+
+Individuo * Individuo::getPrey()
+{
+  return this -> food;
+}
+
 // Setters de la clase Individuo.
 
 void Individuo::setName(string _name)

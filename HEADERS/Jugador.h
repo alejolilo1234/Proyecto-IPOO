@@ -34,12 +34,9 @@ class Jugador
   int interfaceSize;
   int characterSizeInInterface;
   vector <Lugar *> interfaceOfPlaces;
+  vector <Individuo *> nameAndCommand;
+  vector <Individuo *> predators;
   int lengthOfNames;
-  vector <string> stringCommands;
-  vector <string> nameAndCommand;
-  vector <string> availableCommands = {
-    "A","C","D","E","F","G","H","J","K","M","N","O","P","S","T","U","V","W","X","Y"
-  };
 
   public:
   // Constructor y destructor de la clase Jugador.
@@ -66,6 +63,8 @@ class Jugador
   void setLengthOfNames();
 
   void setUniqueCommands();
+
+  void setPredators();
   
   // Métodos de la clase Jugador.
 

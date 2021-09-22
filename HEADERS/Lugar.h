@@ -30,7 +30,7 @@ class Lugar
   int capacity;
   Lugar * neighbor;
   Lugar * nextNeighbor;
-  vector <Individuo *> predators;
+  
 
   public:
   // Constructor y destructor de la clase Lugar.
@@ -68,7 +68,7 @@ class Lugar
 
   void setCommand(string);
 
-  void setPredators();
+  
 
   // Métodos de la clase Lugar.
 
