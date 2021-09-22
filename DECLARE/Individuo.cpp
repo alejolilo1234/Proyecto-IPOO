@@ -13,21 +13,21 @@
 
 // Constructor y destructor de la clase Individuo.
 
-Individuo::Individuo(string _name, Individuo *_food, bool _canMoveBoat) : food(_food), canMoveBoat(_canMoveBoat)
+Individuo::Individuo(string _name) : canMoveBoat(false), food(nullptr)
 {
-  string Name;
-  for(int posicion = 0;posicion < _name.size(); posicion++)
-    Name += toupper(_name[posicion]);
-  this -> name = Name;
+  this -> setName(_name);
+  this -> setCommand(_name);
+}
+
+Individuo::Individuo(string _name, bool _canMoveBoat) : canMoveBoat(_canMoveBoat), food(nullptr)
+{
+  this -> setName(_name);
   this -> setCommand(_name);
 }
 
 Individuo::Individuo(string _name, Individuo *_food) : name(_name), food(_food), canMoveBoat(false)
 {
-  string Name;
-  for(int posicion = 0;posicion < _name.size(); posicion++)
-    Name += toupper(_name[posicion]);
-  this -> name = Name;
+  this -> setName(_name);
   this -> setCommand(_name);
 }
 
@@ -54,6 +54,14 @@ bool Individuo::getIfItCanMoveBoat()
 }
   
 // Setters de la clase Individuo.
+
+void Individuo::setName(string _name)
+{
+  string aux;
+  for(int posicion = 0;posicion < _name.size(); posicion++)
+    aux += toupper(_name[posicion]);
+  this -> name = aux;
+}
 
 void Individuo::setCommand(string _command)
 {

@@ -22,9 +22,9 @@
 int main()
 {
   Jugador player;
-  Orilla left("izquierda",nullptr,nullptr);
-  Orilla right("derecha",nullptr,nullptr);
-  Barca boat("varquita",&left,&right);
+  Orilla left("orilla",nullptr,nullptr);
+  Orilla right("orilla",nullptr,nullptr);
+  Barca boat("barca",&left,&right);
 
   right.setNextNeighbor(&boat);
   left.setNeighbor(&boat);
@@ -35,14 +35,18 @@ int main()
   player.introducePlaces(&boat);
   player.introducePlaces(&right);
   // Personajes
-  Individuo lectuse("rechuga",nullptr);
-  Individuo rabbit("konejo",&lectuse);
-  Individuo fox("sorro",&rabbit);
-  Individuo robot("lobot",nullptr,true);
+  Individuo lectuse("lechuga");
+  Individuo shoe("zapato");
+  Individuo car("carro");
+  Individuo rabbit("conejo",&lectuse);
+  Individuo fox("zorro",&rabbit);
+  Individuo robot("robot",true);
   player.introduceCharacter(&left,&robot);
   player.introduceCharacter(&left,&fox);
   player.introduceCharacter(&left,&rabbit);
   player.introduceCharacter(&left,&lectuse);
+  player.introduceCharacter(&left,&shoe);
+  // player.introduceCharacter(&boat,&car);
   player.start(true);
   return 0;
 }

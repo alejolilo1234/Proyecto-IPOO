@@ -36,7 +36,9 @@ class Individuo
   /**
   Constructor de la clase Individuo.
   */
-  Individuo(string, Individuo *,bool);
+  Individuo(string);
+
+  Individuo(string, bool);
 
   Individuo(string, Individuo *);
   /**
@@ -53,6 +55,8 @@ class Individuo
   bool getIfItCanMoveBoat();
 
   // Setters de la clase Individuo.
+
+  void setName(string);
 
   void setCommand(string);
   

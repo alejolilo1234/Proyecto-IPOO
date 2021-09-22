@@ -30,6 +30,7 @@ class Lugar
   int capacity;
   Lugar * neighbor;
   Lugar * nextNeighbor;
+  vector <Individuo *> predators;
 
   public:
   // Constructor y destructor de la clase Lugar.
@@ -51,8 +52,6 @@ class Lugar
 
   int getSizeOfCharacters();
 
-  // string getNameOfCharacter(int);
-
   Individuo * getCharacter(int);
 
   Individuo * getCharacter(string);
@@ -68,6 +67,8 @@ class Lugar
   void setCapacity(int);
 
   void setCommand(string);
+
+  void setPredators();
 
   // Métodos de la clase Lugar.
 

@@ -22,6 +22,7 @@
 #include "./Individuo.h"
 #include "./Lugar.h"
 #include <vector>
+#include<map>
 
 class Jugador 
 {
@@ -33,7 +34,13 @@ class Jugador
   int interfaceSize;
   int characterSizeInInterface;
   vector <Lugar *> interfaceOfPlaces;
-  
+  int lengthOfNames;
+  vector <string> stringCommands;
+  vector <string> nameAndCommand;
+  vector <string> availableCommands = {
+    "A","C","D","E","F","G","H","J","K","M","N","O","P","S","T","U","V","W","X","Y"
+  };
+
   public:
   // Constructor y destructor de la clase Jugador.
 
@@ -54,15 +61,17 @@ class Jugador
 
   void setPrincipalCharacter();
 
-  // void setOnlyOnePrincipalCharacter();
+  void setNameAndCommand();
+
+  void setLengthOfNames();
+
+  void setUniqueCommands();
   
   // Métodos de la clase Jugador.
 
-  void showInstructions();
+  void showInstructions(bool);
 
   void showCommands();
-
-  void commandsText();
 
   void symbolsForPlaces(int,string,string);
 
@@ -70,7 +79,7 @@ class Jugador
 
   void symbolsForTop_BottomRows(bool);
 
-  void createInterface(bool);
+  void createInterface(bool,bool);
 
   void introducePlaces(Lugar *);
 
@@ -78,11 +87,13 @@ class Jugador
 
   void takeCharacter(Lugar *, Individuo *);
 
-  void whatDoYouWantToMove();
+  int whatDoYouWantToMove();
+
+  bool isDuplicated(string, vector <string>);
+
+  void deleteCommand(string, vector <string> &);
 
   void start(bool);
-  
-  void imprimirIndividuosMover();
 };
 
 #else 

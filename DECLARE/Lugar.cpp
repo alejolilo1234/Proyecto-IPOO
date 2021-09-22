@@ -93,6 +93,11 @@ void Lugar::setCommand(string _command)
   this -> command = _command;
 }
 
+void setPredators()
+{
+  
+}
+
 // Métodos de la clase Lugar.
 
 bool Lugar::haveNeighbor(Lugar * _place)
@@ -113,8 +118,8 @@ void Lugar::takeCharacter(Individuo *_character)
   {
     if(characters[which] == _character)
     {
+      // this -> characters.pop_back();
       this -> characters.erase(characters.begin() + which);
     }
   }
-  // this -> characters.push_back(_character);
 }
