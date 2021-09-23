@@ -17,7 +17,7 @@
 
 Orilla::Orilla(string _name, Lugar * _neighbor, Lugar * _nextNeighbor) : Lugar(_name,_neighbor,_nextNeighbor)
 {
-  Lugar::setCapacity(this -> getSizeOfCharacters());
+  Lugar::setCapacity(4);
   Lugar::setCommand("*");
 }
 

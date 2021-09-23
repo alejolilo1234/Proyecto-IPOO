@@ -63,6 +63,8 @@ class Individuo
   void setCommand(string);
   
   // Métodos de la clase Individuo.
+
+  // bool hasCommand(string);
   
 };
 

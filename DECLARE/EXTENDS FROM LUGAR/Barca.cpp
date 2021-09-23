@@ -31,3 +31,15 @@ Barca::~Barca()
 // Setters de la clase Barca.
 
 // Métodos de la clase Barca.
+
+bool Barca::canMove()
+{
+  bool state;
+  for(int i = 0; i < characters.size(); i++)
+    if(this -> characters[i]->getIfItCanMoveBoat())
+    {
+      state = true;
+      return state;
+    } 
+  return false;
+}

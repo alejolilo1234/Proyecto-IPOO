@@ -28,7 +28,7 @@ class Jugador
 {
   private:
   string name;
-  Individuo * principalCharacter;
+  vector <Individuo *> principalCharacters;
   bool play;
   bool commands;
   int interfaceSize;
@@ -37,6 +37,7 @@ class Jugador
   vector <Individuo *> nameAndCommand;
   vector <Individuo *> predators;
   int lengthOfNames;
+  map <int, string> capacities; 
 
   public:
   // Constructor y destructor de la clase Jugador.
@@ -91,6 +92,8 @@ class Jugador
   bool isDuplicated(string, vector <string>);
 
   void deleteCommand(string, vector <string> &);
+
+  bool searchIfHasCommand(string);
 
   void start(bool);
 };

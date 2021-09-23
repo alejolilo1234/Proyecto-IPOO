@@ -78,6 +78,8 @@ class Lugar
 
   void takeCharacter(Individuo *);
   
+  virtual bool canMove();
+
 };
 
 #else 

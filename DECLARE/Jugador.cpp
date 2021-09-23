@@ -16,9 +16,13 @@
 
 // Constructor y destructor de la clase Jugador.
 
-Jugador::Jugador() : play(false), principalCharacter(nullptr)
+Jugador::Jugador() : play(false)
 {
-  // 
+  capacities[0] = "cero";
+  capacities[1] = "uno";
+  capacities[2] = "dos";
+  capacities[3] = "tres";
+  capacities[4] = "cuatro";
 }
 
 Jugador::~Jugador()
@@ -46,7 +50,7 @@ void Jugador::setPrincipalCharacter()
   for(int i = 0; i < interfaceOfPlaces.size(); i++)
     for(int whichCharacter = 0; whichCharacter < interfaceOfPlaces[i]->getSizeOfCharacters(); whichCharacter++)
       if(interfaceOfPlaces[i]->getCharacter(whichCharacter)->getIfItCanMoveBoat())
-        this -> principalCharacter = interfaceOfPlaces[i]->getCharacter(whichCharacter);
+        this -> principalCharacters.push_back(interfaceOfPlaces[i]->getCharacter(whichCharacter));
 }
 
 void Jugador::setLengthOfNames()
@@ -111,12 +115,8 @@ void Jugador::deleteCommand(string _char,vector <string> &_vector)
 void Jugador::setPredators()
 {
   for(int i = 0; i < this -> nameAndCommand.size();i++)
-  {
     if(nameAndCommand[i]->getPrey() != nullptr)
-    {
       this -> predators.push_back(nameAndCommand[i]);
-    }
-  }
 }
 
 // Métodos de la clase Jugador.
@@ -138,15 +138,22 @@ void Jugador::showInstructions(bool _state)
     system("clear");
     if(_state)
       cout << "¡Bienvenido " << this -> name <<  "!\n\n";
-    cout << "Eres un " << this -> principalCharacter -> getName() << " y tu misión es llevar todos los individuos a la otra orilla usando " << this -> interfaceOfPlaces[1] -> getName() << ". No puedes dejar solos al"; 
-    // cout << " al zorro con el conejo, ni al conejo con la lechuga,";
+    cout << "Eres";
+    // cout << this -> principalCharacters[0] -> getName(); 
+    for(int i = 0; i < principalCharacters.size(); i++)
+    {
+      if(i >= 1)
+        cout << " y";
+      cout << " " << principalCharacters[i]->getName();
+    }
+    cout << " y tu misión es llevar todos los individuos a la otra orilla usando " << this -> interfaceOfPlaces[1] -> getName() << ". No puedes dejar solos al";
     for(int i = 0; i < predators.size(); i++)
     {
       if(i >= 1)
         cout << " o";
       cout << " " << predators[i]->getName() << " con " << predators[i]->getPrey()->getName();
     }
-    cout << " porque el primero se devoraría al segundo. En la " << this -> interfaceOfPlaces[1] -> getName() << " solo caben " << this -> interfaceOfPlaces[1] -> getCapacity() << " individuos, y uno de ellos debes ser tú para pilotarla.\n\n";
+    cout << " porque el primero se devoraría al segundo. En la " << this -> interfaceOfPlaces[1] -> getName() << " solo caben " << this -> capacities[interfaceOfPlaces[1] -> getCapacity()] << " individuos y uno de ellos debes ser tú para pilotarla.\n\n";
   }
   else
     system("clear");
@@ -337,7 +344,7 @@ int Jugador::whatDoYouWantToMove()
 
   if(move == "B")
   {
-    if(interfaceOfPlaces[2] -> haveNeighbor(nullptr))
+    if(interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[1]->canMove())
     {
       interfaceOfPlaces[0] -> setNeighbor(nullptr);
       interfaceOfPlaces[0] -> setNextNeighbor(interfaceOfPlaces[1]);
@@ -345,8 +352,10 @@ int Jugador::whatDoYouWantToMove()
       interfaceOfPlaces[1] -> setNextNeighbor(interfaceOfPlaces[0]);
       interfaceOfPlaces[2] -> setNeighbor(interfaceOfPlaces[1]);
       interfaceOfPlaces[2] -> setNextNeighbor(nullptr);
+      system("clear");
+      this -> createInterface(true,true);
     }
-    else 
+    else if(interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[1]->canMove())
     {
       interfaceOfPlaces[0] -> setNeighbor(interfaceOfPlaces[1]);
       interfaceOfPlaces[0] -> setNextNeighbor(nullptr);
@@ -354,58 +363,101 @@ int Jugador::whatDoYouWantToMove()
       interfaceOfPlaces[1] -> setNextNeighbor(interfaceOfPlaces[2]);
       interfaceOfPlaces[2] -> setNeighbor(nullptr);
       interfaceOfPlaces[2] -> setNextNeighbor(interfaceOfPlaces[1]);
+      system("clear");
+      this -> createInterface(true,true);
+    }
+    else
+    {
+      system("clear");
+      this -> createInterface(true,true);
     }
   }
-  else if(move == "R")
+  else if(this->searchIfHasCommand(move))
   {
 
     // Para cuando individuo se encuentra en la orilla izquierda y la barca es vecina
-    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[0] -> getCharacter("R") != nullptr)
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[0] -> getCharacter(move) != nullptr)
     {
-      this -> introduceCharacter(interfaceOfPlaces[1], interfaceOfPlaces[0] -> getCharacter("R"));
-      this -> takeCharacter(interfaceOfPlaces[0],interfaceOfPlaces[0] -> getCharacter("R"));
+      if(interfaceOfPlaces[1]->getSizeOfCharacters() < interfaceOfPlaces[1]->getCapacity())
+        this -> introduceCharacter(interfaceOfPlaces[1], interfaceOfPlaces[0] -> getCharacter(move));
+      else 
+      {
+        system("clear");
+        this -> createInterface(true,true);
+        return 0;
+      }
+      this -> takeCharacter(interfaceOfPlaces[0],interfaceOfPlaces[0] -> getCharacter(move));
+      system("clear");
+      this -> createInterface(true,true);
       return 0;
     }
 
     // Para cuando individuo se encuentra en la barca y la vecino de barca es orilla izquierda
-    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[1] -> getCharacter("R") != nullptr)
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[1] -> getCharacter(move) != nullptr)
     {
-      this -> introduceCharacter(interfaceOfPlaces[0], interfaceOfPlaces[1] -> getCharacter("R"));
-      this -> takeCharacter(interfaceOfPlaces[1],interfaceOfPlaces[1] -> getCharacter("R"));
+      if(interfaceOfPlaces[0]->getSizeOfCharacters() < interfaceOfPlaces[0]->getCapacity())
+        this -> introduceCharacter(interfaceOfPlaces[0], interfaceOfPlaces[1] -> getCharacter(move));
+      else 
+      {
+        system("clear");
+        this -> createInterface(true,true);
+        return 0;
+      }
+      this -> takeCharacter(interfaceOfPlaces[1],interfaceOfPlaces[1] -> getCharacter(move));
+      system("clear");
+      this -> createInterface(true,true);
       return 0;
     }
 
-    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[1] -> getCharacter("R") != nullptr)
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[1] -> getCharacter(move) != nullptr)
     {
-      this -> introduceCharacter(interfaceOfPlaces[2], interfaceOfPlaces[1] -> getCharacter("R"));
-      this -> takeCharacter(interfaceOfPlaces[1],interfaceOfPlaces[1] -> getCharacter("R"));
+      if(interfaceOfPlaces[2]->getSizeOfCharacters() < interfaceOfPlaces[2]->getCapacity())
+        this -> introduceCharacter(interfaceOfPlaces[2], interfaceOfPlaces[1] -> getCharacter(move));
+      else 
+      {
+        system("clear");
+        this -> createInterface(true,true);
+        return 0;
+      }
+      this -> takeCharacter(interfaceOfPlaces[1],interfaceOfPlaces[1] -> getCharacter(move));
+      system("clear");
+      this -> createInterface(true,true);
       return 0;
     }
 
-    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> getCharacter("R") != nullptr)
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> getCharacter(move) != nullptr)
     {
-      this -> introduceCharacter(interfaceOfPlaces[1], interfaceOfPlaces[2] -> getCharacter("R"));
-      this -> takeCharacter(interfaceOfPlaces[2],interfaceOfPlaces[1] -> getCharacter("R"));
+      if(interfaceOfPlaces[1]->getSizeOfCharacters() < interfaceOfPlaces[1]->getCapacity())
+        this -> introduceCharacter(interfaceOfPlaces[1], interfaceOfPlaces[2] -> getCharacter(move));
+      else 
+      {
+        system("clear");
+        this -> createInterface(true,true);
+        return 0;
+      }
+      this -> takeCharacter(interfaceOfPlaces[2],interfaceOfPlaces[1] -> getCharacter(move));
+      system("clear");
+      this -> createInterface(true,true);
       return 0;
     }
     
     // Para cuando individuo barca se encuentra al otro lado y robot en orilla izquierda
-    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[0] -> getCharacter("R") != nullptr)
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[0] -> getCharacter(move) != nullptr)
     {
-      this -> takeCharacter(interfaceOfPlaces[0],interfaceOfPlaces[0] -> getCharacter("R"));
       system("clear");
       this -> play = false;
-      cout << "El ROBOT se ahogo.\n\n";
+      cout << "El "<< interfaceOfPlaces[0] -> getCharacter(move) -> getName() <<" se ahogo.\n\n";
+      this -> takeCharacter(interfaceOfPlaces[0],interfaceOfPlaces[0] -> getCharacter(move));
       this -> createInterface(false,false);
       return 0;
     }
     
-    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> getCharacter("R") != nullptr)
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> getCharacter(move) != nullptr)
     {
-      this -> takeCharacter(interfaceOfPlaces[2],interfaceOfPlaces[2] -> getCharacter("R"));
       system("clear");
       this -> play = false;
-      cout << "El ROBOT se ahogo.\n\n";
+      cout << "El "<< interfaceOfPlaces[2] -> getCharacter(move) -> getName() <<" se ahogo.\n\n";
+      this -> takeCharacter(interfaceOfPlaces[2],interfaceOfPlaces[2] -> getCharacter(move));
       this -> createInterface(false,false);
       return 0;
     }
@@ -422,7 +474,20 @@ int Jugador::whatDoYouWantToMove()
     cout << "Gracias por jugar :D" << endl;
     this -> play = false;
   }
+  else
+  {
+    system("clear");
+    this -> createInterface(true,true);
+  }
   return 0;
+}
+
+bool Jugador::searchIfHasCommand(string _command)
+{
+  for(int i = 0; i < nameAndCommand.size(); i++)
+    if(_command == nameAndCommand[i]->getCommand())
+      return true;
+  return false;
 }
 
 void Jugador::start(bool _state)

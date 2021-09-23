@@ -41,7 +41,7 @@ int main()
   Individuo robot("robot",true);
   Individuo robot2("robot2",true);
   player.introduceCharacter(&left,&robot);
-  player.introduceCharacter(&left,&robot2);
+  // player.introduceCharacter(&left,&robot2);
   player.introduceCharacter(&left,&fox);
   player.introduceCharacter(&left,&rabbit);
   player.introduceCharacter(&left,&lectuse);

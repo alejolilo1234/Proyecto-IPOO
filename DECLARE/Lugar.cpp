@@ -102,20 +102,29 @@ bool Lugar::haveNeighbor(Lugar * _place)
     return true;
   return false;
 }
-
+#include <iostream>
 void Lugar::introduceCharacter(Individuo *_character)
 {
-  this -> characters.push_back(_character);
+  if(this -> characters.size() < this -> capacity)
+  {
+    // cout << "H";
+    this -> characters.push_back(_character);
+  }
 }
 
 void Lugar::takeCharacter(Individuo *_character)
 {
   for(int which = 0; which < characters.size(); which++)
-  {
     if(characters[which] == _character)
-    {
-      // this -> characters.pop_back();
       this -> characters.erase(characters.begin() + which);
-    }
-  }
 }
+
+bool Lugar::canMove()
+{
+  return false;
+}
+
+// void Lugar::wasEaten()
+// {
+  // 
+// }

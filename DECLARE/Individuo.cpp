@@ -74,3 +74,10 @@ void Individuo::setCommand(string _command)
 }
 
 // Métodos de la clase Individuo.
+
+// bool Individuo::hasCommand(string _command)
+// {
+//   for(int posicion = 0;posicion < _name.size(); posicion++)
+//     aux += toupper(_name[posicion]);
+//   return false;
+// }

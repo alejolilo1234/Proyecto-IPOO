@@ -40,6 +40,8 @@ class Barca : public Lugar
   
   // Métodos de la clase Barca.
 
+  bool canMove();
+
 };
 
 #else 
