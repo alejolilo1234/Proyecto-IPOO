@@ -64,8 +64,6 @@ class Individuo
   
   // Métodos de la clase Individuo.
 
-  // bool hasCommand(string);
-  
 };
 
 #else 

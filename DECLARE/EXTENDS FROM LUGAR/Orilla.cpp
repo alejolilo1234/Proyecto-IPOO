@@ -31,3 +31,11 @@ Orilla::~Orilla()
 // Setters de la clase Orilla.
 
 // Métodos de la clase Orilla.
+
+bool Orilla::canMove()
+{
+  for(int i = 0; i < characters.size(); i++)
+    if(this -> characters[i]->getIfItCanMoveBoat())
+      return true;
+  return false;
+}

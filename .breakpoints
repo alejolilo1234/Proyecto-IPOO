@@ -2,10 +2,18 @@
   "files": {
     "DECLARE/Jugador.cpp": [
       {
-        "id": "57dddb7f-b704-4bd7-a20c-73643a4d336b",
-        "line": 97,
-        "version": 12397,
-        "index": 3220
+        "id": "4f08ff33-9068-443b-bc66-221df572f641",
+        "line": 381,
+        "version": 13543,
+        "index": 11839
+      }
+    ],
+    "DECLARE/Lugar.cpp": [
+      {
+        "id": "67c236f7-85f7-457a-ab0b-7cbf04339e2d",
+        "line": 145,
+        "version": 2817,
+        "index": 2833
       }
     ]
   }

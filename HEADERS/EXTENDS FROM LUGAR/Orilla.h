@@ -39,6 +39,8 @@ class Orilla : public Lugar
   // Setters de la clase Orilla.
   
   // Métodos de la clase Orilla.
+
+  bool canMove();
   
 };
 

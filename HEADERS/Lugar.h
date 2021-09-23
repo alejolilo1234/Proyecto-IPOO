@@ -26,7 +26,9 @@ class Lugar
   protected:
   string name;
   string command;
+  vector <Individuo *> principalCharacters;
   vector <Individuo *> characters;
+  vector <Individuo *> predators;
   int capacity;
   Lugar * neighbor;
   Lugar * nextNeighbor;
@@ -68,7 +70,9 @@ class Lugar
 
   void setCommand(string);
 
-  
+  void setPrincipalCharacters();
+
+  void setPredators();
 
   // Métodos de la clase Lugar.
 
@@ -79,6 +83,8 @@ class Lugar
   void takeCharacter(Individuo *);
   
   virtual bool canMove();
+
+  bool wasEaten();
 
 };
 

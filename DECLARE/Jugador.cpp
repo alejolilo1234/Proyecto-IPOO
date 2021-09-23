@@ -89,7 +89,6 @@ void Jugador::setUniqueCommands()
     {
       if(this -> isDuplicated(this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->getCommand(),stringCommands))
       {
-        this -> deleteCommand(this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->getCommand(),availableCommands);
         string newCommand = availableCommands[rand() % availableCommands.size() + 1];
         this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->setCommand(newCommand);
       }
@@ -103,13 +102,6 @@ bool Jugador::isDuplicated(string _char, vector <string> _vector)
     if(_char == _vector[i])
       return true;
   return false;
-}
-
-void Jugador::deleteCommand(string _char,vector <string> &_vector)
-{
-  for(int i = 0; i < _vector.size();i++)
-    if(_char == _vector[i])
-      _vector.erase(_vector.begin() + i);
 }
 
 void Jugador::setPredators()
@@ -374,8 +366,6 @@ int Jugador::whatDoYouWantToMove()
   }
   else if(this->searchIfHasCommand(move))
   {
-
-    // Para cuando individuo se encuentra en la orilla izquierda y la barca es vecina
     if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[0] -> getCharacter(move) != nullptr)
     {
       if(interfaceOfPlaces[1]->getSizeOfCharacters() < interfaceOfPlaces[1]->getCapacity())
@@ -387,12 +377,21 @@ int Jugador::whatDoYouWantToMove()
         return 0;
       }
       this -> takeCharacter(interfaceOfPlaces[0],interfaceOfPlaces[0] -> getCharacter(move));
+      
+      if(interfaceOfPlaces[0]->wasEaten())
+      {
+        this -> play = false;
+        system("clear");
+        cout << "Alguien fue deborado\n";
+        this -> createInterface(false,false);
+        return 0;
+      }
       system("clear");
       this -> createInterface(true,true);
       return 0;
+      // }
     }
 
-    // Para cuando individuo se encuentra en la barca y la vecino de barca es orilla izquierda
     if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[1] -> getCharacter(move) != nullptr)
     {
       if(interfaceOfPlaces[0]->getSizeOfCharacters() < interfaceOfPlaces[0]->getCapacity())
@@ -404,6 +403,14 @@ int Jugador::whatDoYouWantToMove()
         return 0;
       }
       this -> takeCharacter(interfaceOfPlaces[1],interfaceOfPlaces[1] -> getCharacter(move));
+      // if(interfaceOfPlaces[1]->wasEaten())
+      // {
+      //   this -> play = false;
+      //   system("clear");
+      //   cout << "Alguien fue deborado\n";
+      //   this -> createInterface(false,false);
+      //   return 0;
+      // }
       system("clear");
       this -> createInterface(true,true);
       return 0;
@@ -420,6 +427,14 @@ int Jugador::whatDoYouWantToMove()
         return 0;
       }
       this -> takeCharacter(interfaceOfPlaces[1],interfaceOfPlaces[1] -> getCharacter(move));
+      // if(interfaceOfPlaces[1]->wasEaten())
+      // {
+      //   this -> play = false;
+      //   system("clear");
+      //   cout << "Alguien fue deborado\n";
+      //   this -> createInterface(false,false);
+      //   return 0;
+      // }
       system("clear");
       this -> createInterface(true,true);
       return 0;
@@ -436,12 +451,19 @@ int Jugador::whatDoYouWantToMove()
         return 0;
       }
       this -> takeCharacter(interfaceOfPlaces[2],interfaceOfPlaces[1] -> getCharacter(move));
+      if(interfaceOfPlaces[2]->wasEaten())
+      {
+        this -> play = false;
+        system("clear");
+        cout << "Alguien fue deborado\n";
+        this -> createInterface(false,false);
+        return 0;
+      }
       system("clear");
       this -> createInterface(true,true);
       return 0;
     }
     
-    // Para cuando individuo barca se encuentra al otro lado y robot en orilla izquierda
     if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[2]) && interfaceOfPlaces[0] -> haveNeighbor(nullptr) && interfaceOfPlaces[2] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[0] -> getCharacter(move) != nullptr)
     {
       system("clear");
@@ -473,11 +495,13 @@ int Jugador::whatDoYouWantToMove()
     system("clear");
     cout << "Gracias por jugar :D" << endl;
     this -> play = false;
+    return 0;
   }
   else
   {
     system("clear");
     this -> createInterface(true,true);
+    return 0;
   }
   return 0;
 }

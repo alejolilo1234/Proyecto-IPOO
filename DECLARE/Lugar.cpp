@@ -22,6 +22,8 @@ Lugar::Lugar(string _name, Lugar * _neighbor, Lugar * _nextNeighbor)
   this -> name = Name;
   this -> neighbor = _neighbor;
   this -> nextNeighbor = _nextNeighbor;
+  this -> setPrincipalCharacters();
+  this -> setPredators();
 }
 
 Lugar::~Lugar()
@@ -93,6 +95,20 @@ void Lugar::setCommand(string _command)
   this -> command = _command;
 }
 
+void Lugar::setPrincipalCharacters()
+{
+  for(int i = 0; i < characters.size(); i++)
+    if(characters[i]->getIfItCanMoveBoat())
+      principalCharacters.push_back(characters[i]);
+}
+
+void Lugar::setPredators()
+{
+  for(int i = 0; i < characters.size(); i++)
+    if(characters[i]->getPrey() != nullptr)
+      predators.push_back(characters[i]);
+}
+
 
 // Métodos de la clase Lugar.
 
@@ -102,12 +118,11 @@ bool Lugar::haveNeighbor(Lugar * _place)
     return true;
   return false;
 }
-#include <iostream>
+
 void Lugar::introduceCharacter(Individuo *_character)
 {
   if(this -> characters.size() < this -> capacity)
   {
-    // cout << "H";
     this -> characters.push_back(_character);
   }
 }
@@ -121,10 +136,25 @@ void Lugar::takeCharacter(Individuo *_character)
 
 bool Lugar::canMove()
 {
+  for(int i = 0; i < characters.size(); i++)
+    if(this -> characters[i]->getIfItCanMoveBoat())
+      return true;
   return false;
 }
 
-// void Lugar::wasEaten()
-// {
-  // 
-// }
+bool Lugar::wasEaten()
+{
+  for(int i = 0; i < characters.size(); i++)
+  {
+    if(characters[i] -> getIfItCanMoveBoat())
+    {
+      return false;
+    }
+    if(characters[i] -> getPrey() == characters[i + 1])
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
