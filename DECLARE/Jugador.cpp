@@ -80,8 +80,14 @@ void Jugador::setUniqueCommands()
   srand(time(NULL));
   
   vector <string> stringCommands;
+  // vector <string> availableCommands = {
+  //   "A","C","D","E","F","G","H","J","K","M","N","O","P","S","T","U","V","W","X","Y","1","2","3","4","5","6","7","8","9","!","#","$","%","|","&","/","=","?","'","¡","¿","*","+","-","_",":",",",";","."
+  // };
+  // vector <string> availableCommands = {
+  //   "1","2","3","4","5","6","7","8","9"
+  // };
   vector <string> availableCommands = {
-    "A","C","D","E","F","G","H","J","K","M","N","O","P","S","T","U","V","W","X","Y"
+    "=","?"
   };
 
   for(int i = 0; i < interfaceOfPlaces.size(); i++)
@@ -89,7 +95,8 @@ void Jugador::setUniqueCommands()
     {
       if(this -> isDuplicated(this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->getCommand(),stringCommands))
       {
-        string newCommand = availableCommands[rand() % availableCommands.size() + 1];
+        // string newCommand = availableCommands[rand() % availableCommands.size() + 1];
+        string newCommand = availableCommands[rand() % availableCommands.size()];
         this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->setCommand(newCommand);
       }
       stringCommands.push_back(this -> interfaceOfPlaces[i]->getCharacter(whichCharacter)->getCommand());
@@ -224,7 +231,7 @@ void Jugador::symbolsForTop_BottomRows(bool _print)
   cout << "+\n";
 }
 
-void Jugador::createInterface(bool _state,bool _printCommands)
+int Jugador::createInterface(bool _state,bool _printCommands)
 {
   do{
     if(this -> commands && _printCommands)
@@ -237,6 +244,31 @@ void Jugador::createInterface(bool _state,bool _printCommands)
       cout << "× (I) = INSTRUCCIONES" << endl;
       cout << "× (Q) = RENDIRTE" << endl;
       cout << endl;
+    }
+
+    if(interfaceOfPlaces[0]->wasEaten() || interfaceOfPlaces[1]->wasEaten() || interfaceOfPlaces[2]->wasEaten())
+    {
+      cout << "Alguien fue deborado\n";
+      this -> play = false;
+      return 0;
+    }
+    // if(interfaceOfPlaces[1]->wasEaten())
+    // {
+    //   cout << "Alguien fue deborado\n";
+    //   this -> play = false;
+    //   return 0;
+    // }
+    // if(interfaceOfPlaces[2]->wasEaten())
+    // {
+    //   cout << "Alguien fue deborado\n";
+    //   this -> play = false;
+    //   return 0;
+    // }
+    if(interfaceOfPlaces[2]->getSizeOfCharacters() == this -> characterSizeInInterface)
+    {
+      cout << "GANASTE\n";
+      this -> play = false;
+      return 0;
     }
 
     this -> symbolsForTop_BottomRows(false);
@@ -310,6 +342,7 @@ void Jugador::createInterface(bool _state,bool _printCommands)
     if(_state == true)
       this -> whatDoYouWantToMove();
   } while(this -> play == true);
+  return 0;
 }
 
 void Jugador::introducePlaces(Lugar *_place)
@@ -319,7 +352,10 @@ void Jugador::introducePlaces(Lugar *_place)
 
 void Jugador::introduceCharacter(Lugar *_insertInto, Individuo * _character)
 {
+  // if(_insertInto->getSizeOfCharacters() < _insertInto->getCapacity())
+  // {
   _insertInto -> introduceCharacter(_character);
+  // }
 }
 
 void Jugador::takeCharacter(Lugar *_takeFrom, Individuo * _character)
@@ -330,9 +366,19 @@ void Jugador::takeCharacter(Lugar *_takeFrom, Individuo * _character)
 int Jugador::whatDoYouWantToMove()
 {
   string move;
-  cout << "\n¿Que deseas mover " << this -> name << "? "; 
-  getline(cin,move);
-  move = toupper(move[0]);
+  if(this -> play)
+  {
+    cout << "\n¿Que deseas mover " << this -> name << "? "; 
+    getline(cin,move);
+    move = toupper(move[0]);
+  }
+  else
+  {
+    cout << "\nPresiona ENTER para terminar. "; 
+    getline(cin,move);
+    move = toupper(move[0]);
+
+  }
 
   if(move == "B")
   {
@@ -377,19 +423,9 @@ int Jugador::whatDoYouWantToMove()
         return 0;
       }
       this -> takeCharacter(interfaceOfPlaces[0],interfaceOfPlaces[0] -> getCharacter(move));
-      
-      if(interfaceOfPlaces[0]->wasEaten())
-      {
-        this -> play = false;
-        system("clear");
-        cout << "Alguien fue deborado\n";
-        this -> createInterface(false,false);
-        return 0;
-      }
       system("clear");
       this -> createInterface(true,true);
       return 0;
-      // }
     }
 
     if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr) && interfaceOfPlaces[1] -> getCharacter(move) != nullptr)
@@ -403,14 +439,6 @@ int Jugador::whatDoYouWantToMove()
         return 0;
       }
       this -> takeCharacter(interfaceOfPlaces[1],interfaceOfPlaces[1] -> getCharacter(move));
-      // if(interfaceOfPlaces[1]->wasEaten())
-      // {
-      //   this -> play = false;
-      //   system("clear");
-      //   cout << "Alguien fue deborado\n";
-      //   this -> createInterface(false,false);
-      //   return 0;
-      // }
       system("clear");
       this -> createInterface(true,true);
       return 0;
@@ -427,14 +455,6 @@ int Jugador::whatDoYouWantToMove()
         return 0;
       }
       this -> takeCharacter(interfaceOfPlaces[1],interfaceOfPlaces[1] -> getCharacter(move));
-      // if(interfaceOfPlaces[1]->wasEaten())
-      // {
-      //   this -> play = false;
-      //   system("clear");
-      //   cout << "Alguien fue deborado\n";
-      //   this -> createInterface(false,false);
-      //   return 0;
-      // }
       system("clear");
       this -> createInterface(true,true);
       return 0;
@@ -451,14 +471,6 @@ int Jugador::whatDoYouWantToMove()
         return 0;
       }
       this -> takeCharacter(interfaceOfPlaces[2],interfaceOfPlaces[1] -> getCharacter(move));
-      if(interfaceOfPlaces[2]->wasEaten())
-      {
-        this -> play = false;
-        system("clear");
-        cout << "Alguien fue deborado\n";
-        this -> createInterface(false,false);
-        return 0;
-      }
       system("clear");
       this -> createInterface(true,true);
       return 0;

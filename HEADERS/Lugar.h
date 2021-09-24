@@ -28,7 +28,7 @@ class Lugar
   string command;
   vector <Individuo *> principalCharacters;
   vector <Individuo *> characters;
-  vector <Individuo *> predators;
+  vector <Individuo *> preys;
   int capacity;
   Lugar * neighbor;
   Lugar * nextNeighbor;
@@ -72,7 +72,7 @@ class Lugar
 
   void setPrincipalCharacters();
 
-  void setPredators();
+  void setPreys();
 
   // Métodos de la clase Lugar.
 

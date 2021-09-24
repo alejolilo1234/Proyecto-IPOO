@@ -79,7 +79,7 @@ class Jugador
 
   void symbolsForTop_BottomRows(bool);
 
-  void createInterface(bool,bool);
+  int createInterface(bool,bool);
 
   void introducePlaces(Lugar *);
 

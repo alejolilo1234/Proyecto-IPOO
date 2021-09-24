@@ -17,7 +17,7 @@
 
 Barca::Barca(string _name, Lugar * _neighbor, Lugar * _nextNeighbor) : Lugar(_name,_neighbor,_nextNeighbor)
 {
-  Lugar::setCapacity(2);
+  // Lugar::setCapacity(2);
   Lugar::setCommand("B");
 }
 

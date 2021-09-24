@@ -26,22 +26,35 @@ int main()
   Orilla right("orilla",nullptr,nullptr);
   Barca boat("barca",&left,&right);
 
+  right.setCapacity(4);
+  left.setCapacity(4);
+  boat.setCapacity(2);
+
   right.setNextNeighbor(&boat);
   left.setNeighbor(&boat);
-  // left.setNextNeighbor(&boat);
-  // right.setNeighbor(&boat);
 
   player.introducePlaces(&left);
   player.introducePlaces(&boat);
   player.introducePlaces(&right);
   // Personajes
+  vector <Individuo *> characters  =
+  {
+    new Individuo("robot",true),
+    new Individuo("robot2",true),
+    new Individuo("Zapato"),
+    new Individuo("Avionsito"),
+  };
+  
   Individuo lectuse("lechuga");
   Individuo rabbit("conejo",&lectuse);
   Individuo fox("zorro",&rabbit);
-  Individuo robot("robot",true);
-  Individuo robot2("robot2",true);
-  player.introduceCharacter(&left,&robot);
-  // player.introduceCharacter(&left,&robot2);
+
+  right.setCapacity(3 + characters.size());
+  left.setCapacity(3 + characters.size());
+
+  for(int i = 0; i < characters.size(); i++)
+    player.introduceCharacter(&left,characters[i]);
+
   player.introduceCharacter(&left,&fox);
   player.introduceCharacter(&left,&rabbit);
   player.introduceCharacter(&left,&lectuse);
