@@ -28,7 +28,7 @@ int main()
 
   right.setCapacity(4);
   left.setCapacity(4);
-  boat.setCapacity(2);
+  boat.setCapacity(3);
 
   right.setNextNeighbor(&boat);
   left.setNeighbor(&boat);

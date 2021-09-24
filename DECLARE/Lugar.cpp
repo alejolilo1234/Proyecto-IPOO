@@ -151,7 +151,7 @@ bool Lugar::wasEaten()
     {
       return false;
     }
-    if((characters[i] -> getPrey() == characters[i + 1] || characters[i] -> getPrey() == characters[i - 1]) && characters.size() > 1)
+    if(characters[i] -> getPrey() != nullptr && (characters[i] -> getPrey() == characters[i + 1] || characters[i] -> getPrey() == characters[i - 1]) && characters.size() > 1)
     {
       return true;
     }

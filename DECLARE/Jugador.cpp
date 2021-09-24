@@ -23,6 +23,11 @@ Jugador::Jugador() : play(false)
   capacities[2] = "dos";
   capacities[3] = "tres";
   capacities[4] = "cuatro";
+  capacities[5] = "cinco";
+  capacities[6] = "seis";
+  capacities[7] = "siete";
+  capacities[8] = "ocho";
+  capacities[9] = "nueve";
 }
 
 Jugador::~Jugador()
@@ -80,14 +85,8 @@ void Jugador::setUniqueCommands()
   srand(time(NULL));
   
   vector <string> stringCommands;
-  // vector <string> availableCommands = {
-  //   "A","C","D","E","F","G","H","J","K","M","N","O","P","S","T","U","V","W","X","Y","1","2","3","4","5","6","7","8","9","!","#","$","%","|","&","/","=","?","'","¡","¿","*","+","-","_",":",",",";","."
-  // };
-  // vector <string> availableCommands = {
-  //   "1","2","3","4","5","6","7","8","9"
-  // };
   vector <string> availableCommands = {
-    "=","?"
+    "A","C","D","E","F","G","H","J","K","M","N","O","P","S","T","U","V","W","X","Y","1","2","3","4","5","6","7","8","9","!","#","$","%","|","&","/","=","?"," ","*","+",
   };
 
   for(int i = 0; i < interfaceOfPlaces.size(); i++)
@@ -152,7 +151,7 @@ void Jugador::showInstructions(bool _state)
         cout << " o";
       cout << " " << predators[i]->getName() << " con " << predators[i]->getPrey()->getName();
     }
-    cout << " porque el primero se devoraría al segundo. En la " << this -> interfaceOfPlaces[1] -> getName() << " solo caben " << this -> capacities[interfaceOfPlaces[1] -> getCapacity()] << " individuos y uno de ellos debes ser tú para pilotarla.\n\n";
+    cout << " porque el primero se devoraría al segundo. En la " << this -> interfaceOfPlaces[1] -> getName() << " solo caben " << this -> capacities[interfaceOfPlaces[1] -> getCapacity()] << " (" << interfaceOfPlaces[1] -> getCapacity() << ") individuos y uno de ellos debes ser tú para pilotarla.\n\n";
   }
   else
     system("clear");
@@ -246,24 +245,24 @@ int Jugador::createInterface(bool _state,bool _printCommands)
       cout << endl;
     }
 
-    if(interfaceOfPlaces[0]->wasEaten() || interfaceOfPlaces[1]->wasEaten() || interfaceOfPlaces[2]->wasEaten())
+    if(interfaceOfPlaces[0]->wasEaten())
     {
       cout << "Alguien fue deborado\n";
       this -> play = false;
       return 0;
     }
-    // if(interfaceOfPlaces[1]->wasEaten())
-    // {
-    //   cout << "Alguien fue deborado\n";
-    //   this -> play = false;
-    //   return 0;
-    // }
-    // if(interfaceOfPlaces[2]->wasEaten())
-    // {
-    //   cout << "Alguien fue deborado\n";
-    //   this -> play = false;
-    //   return 0;
-    // }
+    if(interfaceOfPlaces[1]->wasEaten())
+    {
+      cout << "Alguien fue deborado\n";
+      this -> play = false;
+      return 0;
+    }
+    if(interfaceOfPlaces[2]->wasEaten())
+    {
+      cout << "Alguien fue deborado\n";
+      this -> play = false;
+      return 0;
+    }
     if(interfaceOfPlaces[2]->getSizeOfCharacters() == this -> characterSizeInInterface)
     {
       cout << "GANASTE\n";

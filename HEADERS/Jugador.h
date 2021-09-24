@@ -28,12 +28,12 @@ class Jugador
 {
   private:
   string name;
-  vector <Individuo *> principalCharacters;
   bool play;
   bool commands;
   int interfaceSize;
   int characterSizeInInterface;
   vector <Lugar *> interfaceOfPlaces;
+  vector <Individuo *> principalCharacters;
   vector <Individuo *> nameAndCommand;
   vector <Individuo *> predators;
   int lengthOfNames;
