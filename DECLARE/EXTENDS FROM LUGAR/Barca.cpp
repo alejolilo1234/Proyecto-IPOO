@@ -17,7 +17,6 @@
 
 Barca::Barca(string _name, Lugar * _neighbor, Lugar * _nextNeighbor) : Lugar(_name,_neighbor,_nextNeighbor)
 {
-  // Lugar::setCapacity(2);
   Lugar::setCommand("B");
 }
 
@@ -34,12 +33,8 @@ Barca::~Barca()
 
 bool Barca::canMove()
 {
-  bool state;
   for(int i = 0; i < characters.size(); i++)
     if(this -> characters[i]->getIfItCanMoveBoat())
-    {
-      state = true;
-      return state;
-    } 
+      return true;
   return false;
 }

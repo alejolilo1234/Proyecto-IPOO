@@ -32,7 +32,13 @@ Jugador::Jugador() : play(false)
 
 Jugador::~Jugador()
 {
-  // 
+  // for(int i = 0; i< interfaceOfPlaces.size();i++)
+  // {
+  //   for(int j = 0; j < this -> interfaceOfPlaces[i]->getSizeOfCharacters();j++)
+  //   {
+  //     delete interfaceOfPlaces[i]->getCharacter(j);
+  //   }
+  // }
 }
 
 // Getters de la clase Jugador.
@@ -86,7 +92,7 @@ void Jugador::setUniqueCommands()
   
   vector <string> stringCommands;
   vector <string> availableCommands = {
-    "A","C","D","E","F","G","H","J","K","M","N","O","P","S","T","U","V","W","X","Y","1","2","3","4","5","6","7","8","9","!","#","$","%","|","&","/","=","?"," ","*","+",
+    "A","D","E","F","G","H","J","K","M","N","O","P","S","T","U","V","W","X","Y","1","2","3","4","5","6","7","8","9","!","#","$","%","|","&","/","=","?"," ","*","+",
   };
 
   for(int i = 0; i < interfaceOfPlaces.size(); i++)
@@ -137,7 +143,6 @@ void Jugador::showInstructions(bool _state)
     if(_state)
       cout << "¡Bienvenido " << this -> name <<  "!\n\n";
     cout << "Eres";
-    // cout << this -> principalCharacters[0] -> getName(); 
     for(int i = 0; i < principalCharacters.size(); i++)
     {
       if(i >= 1)
@@ -245,28 +250,19 @@ int Jugador::createInterface(bool _state,bool _printCommands)
       cout << endl;
     }
 
-    if(interfaceOfPlaces[0]->wasEaten())
+    if(interfaceOfPlaces[0]->wasEaten() || interfaceOfPlaces[1]->wasEaten() || interfaceOfPlaces[2]->wasEaten())
     {
-      cout << "Alguien fue deborado\n";
+      cout << "PERDISTE. Alguien fue deborado\n\n";
       this -> play = false;
-      return 0;
-    }
-    if(interfaceOfPlaces[1]->wasEaten())
-    {
-      cout << "Alguien fue deborado\n";
-      this -> play = false;
-      return 0;
-    }
-    if(interfaceOfPlaces[2]->wasEaten())
-    {
-      cout << "Alguien fue deborado\n";
-      this -> play = false;
+      this -> printInterface();
       return 0;
     }
     if(interfaceOfPlaces[2]->getSizeOfCharacters() == this -> characterSizeInInterface)
     {
       cout << "GANASTE\n";
+
       this -> play = false;
+      this -> printInterface();
       return 0;
     }
 
@@ -344,6 +340,127 @@ int Jugador::createInterface(bool _state,bool _printCommands)
   return 0;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Jugador::printInterface()
+{
+  this -> symbolsForTop_BottomRows(false);
+
+  // Para Lugares
+
+  cout << "| ";
+  for(int which = 0; which < this -> interfaceSize; which++)
+  {
+    switch(which)
+    {
+      case 0:
+        this -> symbolsForPlaces(which,"⇝"," | ");
+        break;
+      case 1:
+        if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr))
+        {
+          this -> symbolsForPlaces(which,"∿"," | ");
+          for(int i = 0; i < this -> lengthOfNames; i++)
+            cout << "∿";
+          cout << " | ";
+        }
+        else 
+        {
+          for(int i = 0; i < this -> lengthOfNames; i++)
+            cout << "∿";
+          cout << " | ";
+          this -> symbolsForPlaces(which,"∿"," | ");
+        }
+        break;
+      case 2:
+        this -> symbolsForPlaces(which,"⇝"," | ");
+        break;
+    }
+  }
+
+  // Para personajes
+
+  for(int whichCharacter = 0; whichCharacter < this -> characterSizeInInterface; whichCharacter++)
+  {
+    cout << "\n| ";
+
+    // Para primera fila
+
+    this -> symbolsForCharacters(0,whichCharacter,"⇝"," | ",false,"");
+
+    if(interfaceOfPlaces[1] -> haveNeighbor(interfaceOfPlaces[0]) && interfaceOfPlaces[0] -> haveNeighbor(interfaceOfPlaces[1]) && interfaceOfPlaces[2] -> haveNeighbor(nullptr))
+    {
+      string water = " | ";
+      for(int w = 0; w < this -> lengthOfNames;w++)
+        water += "∿";
+      water += " | ";
+      this -> symbolsForCharacters(1,whichCharacter,"∿",water,false,"");
+    } 
+    else 
+    {
+      string water;
+      for(int w = 0; w < this -> lengthOfNames;w++)
+        water += "∿";
+      water += " | ";
+      this -> symbolsForCharacters(1,whichCharacter,"∿"," | ",true,water);
+    }
+
+    // Para cuarta fila
+
+    this -> symbolsForCharacters(2,whichCharacter,"⇝"," | ",false,"");
+  }
+
+  this -> symbolsForTop_BottomRows(true);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void Jugador::introducePlaces(Lugar *_place)
 {
   this -> interfaceOfPlaces.push_back(_place);
@@ -351,10 +468,7 @@ void Jugador::introducePlaces(Lugar *_place)
 
 void Jugador::introduceCharacter(Lugar *_insertInto, Individuo * _character)
 {
-  // if(_insertInto->getSizeOfCharacters() < _insertInto->getCapacity())
-  // {
   _insertInto -> introduceCharacter(_character);
-  // }
 }
 
 void Jugador::takeCharacter(Lugar *_takeFrom, Individuo * _character)
@@ -365,19 +479,9 @@ void Jugador::takeCharacter(Lugar *_takeFrom, Individuo * _character)
 int Jugador::whatDoYouWantToMove()
 {
   string move;
-  if(this -> play)
-  {
-    cout << "\n¿Que deseas mover " << this -> name << "? "; 
-    getline(cin,move);
-    move = toupper(move[0]);
-  }
-  else
-  {
-    cout << "\nPresiona ENTER para terminar. "; 
-    getline(cin,move);
-    move = toupper(move[0]);
-
-  }
+  cout << "\n¿Que deseas mover " << this -> name << "? "; 
+  getline(cin,move);
+  move = toupper(move[0]);
 
   if(move == "B")
   {
@@ -535,11 +639,11 @@ void Jugador::start(bool _state)
     this -> characterSizeInInterface = interfaceOfPlaces[2] -> getSizeOfCharacters();
   this -> setUniqueCommands();
   this -> setNameAndCommand();
+  this -> setPrincipalCharacter();
+  this -> setLengthOfNames();
   this -> setPredators();
   this -> setName();
-  this -> setPrincipalCharacter();
   this -> showInstructions(true);
   this -> showCommands();
-  this -> setLengthOfNames();
   this -> createInterface(_state,true);
 }

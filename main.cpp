@@ -35,8 +35,8 @@ int main()
 
   player.introducePlaces(&left);
   player.introducePlaces(&boat);
-  player.introducePlaces(&right);
-  // Personajes
+  player.introducePlaces(&right); 
+
   vector <Individuo *> characters  =
   {
     new Individuo("robot",true),
@@ -59,5 +59,7 @@ int main()
   player.introduceCharacter(&left,&rabbit);
   player.introduceCharacter(&left,&lectuse);
   player.start(true);
+  for(int i = 0; i< characters.size();i++)
+    delete characters[i];
   return 0;
 }

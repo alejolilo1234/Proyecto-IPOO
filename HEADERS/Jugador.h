@@ -81,6 +81,8 @@ class Jugador
 
   int createInterface(bool,bool);
 
+  void printInterface();
+
   void introducePlaces(Lugar *);
 
   void introduceCharacter(Lugar *, Individuo *);

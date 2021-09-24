@@ -17,8 +17,7 @@
 
 Orilla::Orilla(string _name, Lugar * _neighbor, Lugar * _nextNeighbor) : Lugar(_name,_neighbor,_nextNeighbor)
 {
-  // Lugar::setCapacity(4);
-  Lugar::setCommand("*");
+  Lugar::setCommand("°");
 }
 
 Orilla::~Orilla()
@@ -34,8 +33,5 @@ Orilla::~Orilla()
 
 bool Orilla::canMove()
 {
-  for(int i = 0; i < characters.size(); i++)
-    if(this -> characters[i]->getIfItCanMoveBoat())
-      return true;
   return false;
 }
