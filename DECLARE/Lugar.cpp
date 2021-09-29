@@ -28,8 +28,13 @@ Lugar::Lugar(string _name, Lugar * _neighbor, Lugar * _nextNeighbor)
 
 Lugar::~Lugar()
 {
-  for(int i = 0; i< principalCharacters.size();i++)
-    delete principalCharacters[i];
+  if(!this -> characters.empty())
+  {
+    for(int i = 0; i < characters.size(); i++)
+    {
+      
+    }
+  }
 }
 
 // Getters de la clase Lugar.
@@ -142,6 +147,9 @@ bool Lugar::wasEaten()
   {
     if(characters[i] -> getIfItCanMoveBoat())
       return false;
+  }
+  for(int i = 0; i < characters.size(); i++)
+  {
     if(characters[i] -> getPrey() != nullptr && (characters[i] -> getPrey() == characters[i + 1] || characters[i] -> getPrey() == characters[i - 1]) && characters.size() > 1)
       return true;
   }

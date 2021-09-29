@@ -15,8 +15,8 @@
   RELACIONES:
 */
 
-#ifndef BARCHA_H
-#define BARCHA_H
+#ifndef BARCA_H
+#define BARCA_H
 
 class Barca : public Lugar
 {

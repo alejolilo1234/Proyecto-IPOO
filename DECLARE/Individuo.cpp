@@ -25,7 +25,7 @@ Individuo::Individuo(string _name, bool _canMoveBoat) : canMoveBoat(_canMoveBoat
   this -> setCommand(_name);
 }
 
-Individuo::Individuo(string _name, Individuo *_food) : name(_name), food(_food), canMoveBoat(false)
+Individuo::Individuo(string _name, Individuo *_food) : food(_food), canMoveBoat(false)
 {
   this -> setName(_name);
   this -> setCommand(_name);

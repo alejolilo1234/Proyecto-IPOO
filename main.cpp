@@ -37,27 +37,29 @@ int main()
   player.introducePlaces(&boat);
   player.introducePlaces(&right); 
 
+  Individuo lectuse("lechuga");
+  Individuo rabbit("conejo",&lectuse);
+  Individuo fox("zorro",&rabbit);
+
   vector <Individuo *> characters  =
   {
     new Individuo("robot",true),
     new Individuo("robot2",true),
     new Individuo("Zapato"),
     new Individuo("Avionsito"),
+    new Individuo("HKSSHKKAHJFDK"),
   };
-  
-  Individuo lectuse("lechuga");
-  Individuo rabbit("conejo",&lectuse);
-  Individuo fox("zorro",&rabbit);
 
   right.setCapacity(3 + characters.size());
   left.setCapacity(3 + characters.size());
 
   for(int i = 0; i < characters.size(); i++)
     player.introduceCharacter(&left,characters[i]);
-
+  
   player.introduceCharacter(&left,&fox);
   player.introduceCharacter(&left,&rabbit);
   player.introduceCharacter(&left,&lectuse);
+
   player.start(true);
   for(int i = 0; i< characters.size();i++)
     delete characters[i];

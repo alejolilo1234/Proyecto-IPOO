@@ -32,13 +32,7 @@ Jugador::Jugador() : play(false)
 
 Jugador::~Jugador()
 {
-  // for(int i = 0; i< interfaceOfPlaces.size();i++)
-  // {
-  //   for(int j = 0; j < this -> interfaceOfPlaces[i]->getSizeOfCharacters();j++)
-  //   {
-  //     delete interfaceOfPlaces[i]->getCharacter(j);
-  //   }
-  // }
+  // 
 }
 
 // Getters de la clase Jugador.
@@ -91,7 +85,8 @@ void Jugador::setUniqueCommands()
   srand(time(NULL));
   
   vector <string> stringCommands;
-  vector <string> availableCommands = {
+  vector <string> availableCommands = 
+  {
     "A","D","E","F","G","H","J","K","M","N","O","P","S","T","U","V","W","X","Y","1","2","3","4","5","6","7","8","9","!","#","$","%","|","&","/","=","?"," ","*","+",
   };
 
@@ -205,7 +200,7 @@ void Jugador::symbolsForCharacters(int _index, int _character, string _symbol, s
   } 
   else
   {
-    if(interfaceOfPlaces[_index]->getCharacter(_character)->getName().length() < 9)
+    if(interfaceOfPlaces[_index]->getCharacter(_character)->getName().length() < this -> lengthOfNames)
     {
       if(_preSymbols)
         cout << _preSymbol;
