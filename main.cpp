@@ -45,9 +45,9 @@ int main()
   {
     new Individuo("robot",true),
     new Individuo("robot2",true),
-    new Individuo("Zapato"),
+    new Individuo("Zapato",&lectuse),
     new Individuo("Avionsito"),
-    new Individuo("HKSSHKKAHJFDK"),
+    new Individuo("Pajaro"),
   };
 
   right.setCapacity(3 + characters.size());

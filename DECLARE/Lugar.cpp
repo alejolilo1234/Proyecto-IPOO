@@ -28,13 +28,13 @@ Lugar::Lugar(string _name, Lugar * _neighbor, Lugar * _nextNeighbor)
 
 Lugar::~Lugar()
 {
-  if(!this -> characters.empty())
-  {
-    for(int i = 0; i < characters.size(); i++)
-    {
+  // if(!this -> characters.empty())
+  // {
+  //   for(int i = 0; i < characters.size(); i++)
+  //   {
       
-    }
-  }
+  //   }
+  // }
 }
 
 // Getters de la clase Lugar.

@@ -18,7 +18,7 @@
 
 Jugador::Jugador() : play(false)
 {
-  capacities[0] = "cero";
+  // capacities[0] = "cero";
   capacities[1] = "uno";
   capacities[2] = "dos";
   capacities[3] = "tres";
@@ -247,14 +247,14 @@ int Jugador::createInterface(bool _state,bool _printCommands)
 
     if(interfaceOfPlaces[0]->wasEaten() || interfaceOfPlaces[1]->wasEaten() || interfaceOfPlaces[2]->wasEaten())
     {
-      cout << "PERDISTE. Alguien fue deborado\n\n";
+      cout << "PERDISTE. Alguien fue deborado.\n\n";
       this -> play = false;
       this -> printInterface();
       return 0;
     }
     if(interfaceOfPlaces[2]->getSizeOfCharacters() == this -> characterSizeInInterface)
     {
-      cout << "GANASTE\n";
+      cout << "¡¡GANASTE!!\n\n";
 
       this -> play = false;
       this -> printInterface();
@@ -295,7 +295,7 @@ int Jugador::createInterface(bool _state,bool _printCommands)
       }
     }
 
-    // Para personajes
+    // Para individuos
 
     for(int whichCharacter = 0; whichCharacter < this -> characterSizeInInterface; whichCharacter++)
     {
@@ -334,28 +334,6 @@ int Jugador::createInterface(bool _state,bool _printCommands)
   } while(this -> play == true);
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void Jugador::printInterface()
 {
@@ -427,34 +405,6 @@ void Jugador::printInterface()
 
   this -> symbolsForTop_BottomRows(true);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void Jugador::introducePlaces(Lugar *_place)
 {
@@ -578,7 +528,7 @@ int Jugador::whatDoYouWantToMove()
     {
       system("clear");
       this -> play = false;
-      cout << "El "<< interfaceOfPlaces[0] -> getCharacter(move) -> getName() <<" se ahogo.\n\n";
+      cout << interfaceOfPlaces[0] -> getCharacter(move) -> getName() <<" se ahogo.\n\n";
       this -> takeCharacter(interfaceOfPlaces[0],interfaceOfPlaces[0] -> getCharacter(move));
       this -> createInterface(false,false);
       return 0;
@@ -588,7 +538,7 @@ int Jugador::whatDoYouWantToMove()
     {
       system("clear");
       this -> play = false;
-      cout << "El "<< interfaceOfPlaces[2] -> getCharacter(move) -> getName() <<" se ahogo.\n\n";
+      cout << interfaceOfPlaces[2] -> getCharacter(move) -> getName() <<" se ahogo.\n\n";
       this -> takeCharacter(interfaceOfPlaces[2],interfaceOfPlaces[2] -> getCharacter(move));
       this -> createInterface(false,false);
       return 0;
